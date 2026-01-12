@@ -5,65 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AriesitoMc | Redes</title>
     
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
     
-    <!-- Iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
-    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Efecto de partículas -->
-    <div class="particles" id="particles"></div>
-
-    <!-- Navegación -->
     <div class="top-navbar">
-        <div class="navbar-links" id="main-nav-links">
-            <a href="index.html" class="navbar-link" data-page="index">
-                <i class='bx bxs-home'></i>
-                <span>Inicio</span>
-            </a>
-            <a href="proyectos.html" class="navbar-link" data-page="proyectos">
-                <i class='bx bxs-folder-open'></i>
-                <span>Proyectos</span>
-            </a>
-            <a href="redes.html" class="navbar-link active" data-page="redes">
-                <i class='bx bxs-share-alt'></i>
-                <span>Redes</span>
-            </a>
-            <a href="app.html" class="navbar-link" data-page="app">
-                <i class='bx bxs-mobile'></i>
-                <span>App</span>
-            </a>
+        <div class="navbar-links">
+            <a href="index.html" class="navbar-link"><i class='bx bxs-home'></i><span>Inicio</span></a>
+            <a href="proyectos.html" class="navbar-link"><i class='bx bxs-folder-open'></i><span>Proyectos</span></a>
+            <a href="redes.html" class="navbar-link active"><i class='bx bxs-share-alt'></i><span>Redes</span></a>
             <span class="indicator"></span>
         </div>
     </div>
 
     <div id="main">
-        <!-- NO hay logo ni título en esta página -->
-
         <main>
-            <section id="redes" class="glass" style="margin: 2rem auto;">
+            <section class="glass section-margin">
                 <h2 style="text-align: center; margin-bottom: 2rem;">
                     <i class='bx bxs-share-alt'></i> Conéctate Conmigo
                 </h2>
-                <div class="redes-container" id="redes-container">
-                    <!-- Redes se cargan con JS -->
-                </div>
+                
+                <div id="redes-container" class="noticias-grid">
+                    </div>
             </section>
         </main>
 
-        <footer class="glass">
-            <p>AriesitoMc © 2024 - Todos los derechos reservados</p>
+        <footer class="glass section-margin" style="text-align: center;">
+            <p>AriesitoMc © 2026</p>
         </footer>
     </div>
 
-    <!-- JavaScript -->
     <script src="main.js"></script>
 </body>
 </html>
+

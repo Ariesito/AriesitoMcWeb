@@ -1,277 +1,108 @@
-// Datos de la aplicación
 const appData = {
     noticias: [
         {
-            titulo: "¿Ariesito a Regresado?",
-            contenido: "Hace una par de horas Ariesito compartió unas imágenes donde se le veía jugando Minecraft concretamente en (AriesLand) su mundo Survival, es esto un aviso de que regresará?",
-            fecha: "14/12/2025",
-            icono: "bxs-star"
+            titulo: "Colaboración Misteriosa: V1",
+            contenido: "AriesitoMc se une con <span class='censored'>??????</span> para traer la textura técnica definitiva: PurpleTech V1. Muy pronto más detalles.",
+            fecha: "11/01/2026",
+            icono: "bxs-lock-alt"
         },
         {
-            titulo: "Nuevo Canal de YouTube",
-            contenido: "Ya puedes seguir a AriesitoMc en su Nuevo Canal de YouTube \n(Ariesitomc Official) En el apartado de redes, para no perderte de nuevas noticias y estar pendiente de nuevo contenido",
-            fecha: "14/12/2025",
-            icono: "bxs-star"
+            titulo: "Actualización de la Web",
+            contenido: "Fueron realizados múltiples cambios en La Web para mejorar la navegación y la experiencia del usuario.",
+            fecha: "12/01/2026",
+            icono: "bxs-check-shield"
         }        
     ],
-    
     proyectos: [
         {
-            titulo: "Obsidian V2.3",
-            descripcion: "Optimiza tu juego al máximo con este increíble optimizador que mejora el rendimiento y la experiencia visual en Minecraft.",
+            id: "obsidian",
+            titulo: "Obsidian",
+            descripcion: "El proyecto definitivo de texturas oscuras y optimización premium. Diseñado para ofrecer la mejor estética sin sacrificar FPS.",
             imagen: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
-            enlace: "https://link-target.net/1356996/zMa3fwoanGAK",
-            icono: "bxs-palette"
+            version: "V2.3",
+            lanzamiento: "Hace 6 Meses",
+            actualizacion: "Hace 5 Meses",
+            caracteristicas: ["Optimización de FPS", "Interfaz Oscura", "Cielo Personalizado", "Mini Tools", "Elimina Partículas", "Texturas Personalizadas", "Colores Saturados"],
+            mostrarImagenes: false,
+            enlace: "https://link-target.net/1356996/zMa3fwoanGAK"
         }
     ],
-    
     redes: [
-        {
-            nombre: "YouTube",
-            descripcion: "Suscríbete para ver tutoriales, showcases y reviews de mis packs de texturas. Contenido exclusivo cada semana.",
-            url: "https://m.youtube.com/channel/UCRvXgmzaJSRI7Q9tawlEREA",
-            icono: "fab fa-youtube",
-            color: "#FF0000"
-        },
-        {
-            nombre: "TikTok",
-            descripcion: "Mira contenido corto con previews exclusivas y behind the scenes de mis proyectos más recientes.",
-            url: "https://www.tiktok.com/@ariesitomc?_t=ZM-8xxPsP17Jzx&_r=1",
-            icono: "fab fa-tiktok",
-            color: "#000000"
-        },
-        {
-            nombre: "Discord",
-            descripcion: "Únete a nuestra comunidad para soporte, eventos exclusivos, previews y mucho más contenido especial.",
-            url: "https://discord.gg/DgrckyxNMr",
-            icono: "fab fa-discord",
-            color: "#5865F2"
-        },
-        {
-            nombre: "WhatsApp",
-            descripcion: "Sé el primero en enterarte de todo lo nuevo sobre AriesitoMc y sus proyectos directamente en tu celular.",
-            url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b",
-            icono: "fab fa-whatsapp",
-            color: "#25D366"
-        }
+        { nombre: "YouTube", desc: "Suscríbete para ver tutoriales y reviews de mis packs.", url: "https://www.youtube.com/@soyariesitomc", icono: "bxl-youtube", color: "#ff0000" },
+        { nombre: "TikTok", desc: "Mira los mejores clips y adelantos exclusivos.", url: "https://www.tiktok.com/@soyariesitomc", icono: "bxl-tiktok", color: "#ff0050" },
+        { nombre: "Discord", desc: "Únete a nuestra comunidad para soporte.", url: "https://discord.gg/DgrckyxNMr", icono: "bxl-discord-alt", color: "#5865F2" },
+        { nombre: "WhatsApp", desc: "Entérate de todo al instante en mi canal.", url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", icono: "bxl-whatsapp", color: "#25D366" }
     ]
 };
 
-// Cargar noticias
-function loadNoticias() {
-    const grid = document.getElementById('noticias-grid');
-    if (!grid) return;
-    
-    appData.noticias.forEach(noticia => {
-        const card = document.createElement('div');
-        card.className = 'noticia glass';
-        card.innerHTML = `
-            <h3><i class='bx ${noticia.icono}'></i> ${noticia.titulo}</h3>
-            <p>${noticia.contenido}</p>
-            <div class="fecha"><i class='bx bx-calendar'></i> ${noticia.fecha}</div>
-        `;
-        grid.appendChild(card);
-    });
-}
-
-// Cargar proyectos
-function loadProyectos() {
-    const grid = document.getElementById('proyectos-grid');
-    if (!grid) return;
-    
-    appData.proyectos.forEach(proyecto => {
-        const card = document.createElement('div');
-        card.className = 'proyecto glass';
-        card.innerHTML = `
-            <img src="${proyecto.imagen}" alt="${proyecto.titulo}" onerror="this.src='https://via.placeholder.com/400x200/1a1a1a/b36bff?text=${encodeURIComponent(proyecto.titulo)}'">
-            <div class="proyecto-contenido">
-                <h3><i class='bx ${proyecto.icono}'></i> ${proyecto.titulo}</h3>
-                <p>${proyecto.descripcion}</p>
-                <a href="${proyecto.enlace}" target="_blank"><i class='bx bx-download'></i> Descargar</a>
+function initApp() {
+    const newsGrid = document.getElementById('noticias-grid');
+    if (newsGrid) {
+        newsGrid.innerHTML = appData.noticias.map(n => `
+            <div class="noticia-card">
+                <h3><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
+                <p style="margin: 10px 0; color: #ccc; font-size: 0.9rem;">${n.contenido}</p>
+                <small style="color: var(--morado-claro);">${n.fecha}</small>
             </div>
-        `;
-        grid.appendChild(card);
-    });
-}
+        `).join('');
+    }
 
-// Cargar redes
-function loadRedes() {
-    const container = document.getElementById('redes-container');
-    if (!container) return;
-    
-    appData.redes.forEach(red => {
-        const card = document.createElement('div');
-        card.className = 'red-card glass';
-        card.innerHTML = `
-            <div class="red-icon" style="color: ${red.color}">
-                <i class="${red.icono}"></i>
+    const projGrid = document.getElementById('proyectos-grid');
+    if (projGrid) {
+        projGrid.innerHTML = appData.proyectos.map(p => `
+            <div class="noticia-card">
+                <img src="${p.imagen}" style="width:100%; border-radius:12px; margin-bottom:1rem; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="font-family:'Montserrat', sans-serif;">${p.titulo}</h3>
+                <p style="color: #bbb; font-size: 0.9rem; margin: 10px 0;">${p.descripcion}</p>
+                <a href="${p.id}.html" class="btn-download">Ver Detalles</a>
             </div>
-            <h3>${red.nombre}</h3>
-            <p>${red.descripcion}</p>
-            <a href="${red.url}" target="_blank" class="red-btn" style="background: ${red.color}; color: white;">
-                <i class="${red.icono}"></i> Visitar ${red.nombre}
-            </a>
-        `;
-        container.appendChild(card);
-    });
-}
-
-// Configurar funcionalidad de descarga de app
-function setupAppDownload() {
-    const downloadBtn = document.getElementById('download-apk');
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Nombre del archivo APK
-            const apkFileName = 'AriesitoMc.apk';
-            const apkUrl = apkFileName;
-            
-            // Mostrar estado de descarga
-            showDownloadStatus();
-            
-            // Verificar si el archivo existe
-            fetch(apkUrl, { method: 'HEAD' })
-                .then(response => {
-                    if (response.ok) {
-                        // Crear enlace de descarga
-                        const link = document.createElement('a');
-                        link.href = apkUrl;
-                        link.download = apkFileName;
-                        link.target = '_blank';
-                        
-                        // Simular clic
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        
-                        // Mostrar mensaje de éxito
-                        console.log('✅ Descarga iniciada: ' + apkFileName);
-                    } else {
-                        throw new Error('Archivo no encontrado');
-                    }
-                })
-                .catch(error => {
-                    console.error('❌ Error al descargar:', error);
-                    // Si falla la verificación, intentar descargar directamente
-                    const link = document.createElement('a');
-                    link.href = apkUrl;
-                    link.download = apkFileName;
-                    link.target = '_blank';
-                    
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                });
-        });
-    }
-}
-
-// Mostrar estado de descarga
-function showDownloadStatus() {
-    const statusElement = document.getElementById('download-status');
-    if (statusElement) {
-        statusElement.style.display = 'block';
-        setTimeout(() => {
-            statusElement.style.display = 'none';
-        }, 3000);
-    }
-}
-
-// Navegación mejorada
-function setupNavigation() {
-    const navLinks = document.querySelectorAll('.navbar-link');
-    const indicator = document.querySelector('.indicator');
-    if (!indicator) return;
-    
-    const currentPath = window.location.pathname.split("/").pop() || 'index.html';
-    let activeLink = null;
-
-    // Determinar el enlace activo al cargar la página
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPath || (currentPath === '' && linkHref === 'index.html')) {
-            activeLink = link;
-            link.classList.add('active');
-        }
-    });
-
-    // Posicionar el indicador inicialmente
-    function positionIndicator() {
-        if (activeLink) {
-            indicator.style.left = `${activeLink.offsetLeft + (activeLink.offsetWidth / 2)}px`;
-            indicator.classList.add('visible');
-        }
+        `).join('');
     }
 
-    // Posicionar después de que se carguen las fuentes
-    setTimeout(positionIndicator, 100);
-    window.addEventListener('resize', positionIndicator);
+    const redesCont = document.getElementById('redes-container');
+    if (redesCont) {
+        redesCont.innerHTML = appData.redes.map(r => `
+            <div class="noticia-card card-clickable" onclick="window.location.href='${r.url}'">
+                <i class='bx ${r.icono}' style="color:${r.color}; font-size: 2.2rem;"></i>
+                <div>
+                    <h3 style="margin:0; font-size: 1.1rem;">${r.nombre}</h3>
+                    <p style="margin:0; font-size: 0.8rem; color: #aaa;">${r.desc}</p>
+                </div>
+            </div>
+        `).join('');
+    }
 
-    // Manejar clics en los enlaces
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Remover clase 'active' del enlace anterior
-            if (activeLink) {
-                activeLink.classList.remove('active');
-            }
-
-            // Actualizar el enlace activo y añadir la clase 'active'
-            activeLink = this;
-            activeLink.classList.add('active');
-
-            // Mover el indicador
-            positionIndicator();
-
-            // [SE ELIMINÓ la llamada a showLoadingScreen(true);]
-            
-            const targetHref = this.href;
-
-            // Navegar a la página después del retraso del indicador
-            setTimeout(() => {
-                window.location.href = targetHref;
-            }, 400); // Se ajusta a 400ms para corresponder a la transición CSS
-        });
-    });
+    const detalleCont = document.getElementById('detalle-container');
+    if (detalleCont) {
+        const currentFile = window.location.pathname.split('/').pop().replace('.html', '');
+        const p = appData.proyectos.find(x => x.id === currentFile);
+        if (p) {
+            detalleCont.innerHTML = `
+                <div class="glass section-margin" style="text-align: center;">
+                    <img src="${p.imagen}" class="img-proyecto-header" alt="${p.titulo}">
+                    <h1 class="titulo-proyecto-detalle">${p.titulo}</h1>
+                    <div class="info-tecnica-box">
+                        <p><strong>Versión:</strong> ${p.version}</p>
+                        <p><strong>Lanzamiento:</strong> ${p.lanzamiento}</p>
+                        <p><strong>Actualización:</strong> ${p.actualizacion}</p>
+                    </div>
+                    <div class="caracteristicas-box">
+                        <h4 style="color: var(--morado-claro); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom:12px;">Características</h4>
+                        <ul class="lista-caracteristicas">
+                            ${p.caracteristicas.map(c => `<li><i class='bx bx-check-circle'></i> ${c}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <button onclick="abrirAviso('${p.enlace}')" class="btn-download" style="margin-top:2rem; border:none; cursor:pointer;">Descargar Proyecto</button>
+                </div>
+            `;
+        }
+    }
 }
 
-// Inicializar la aplicación
-document.addEventListener("DOMContentLoaded", function() {
-    // [SE ELIMINÓ la llamada inicial a showLoadingScreen();]
-    
-    // Configurar navegación
-    setupNavigation();
-    
-    // Cargar contenido específico de cada página
-    loadNoticias();
-    loadProyectos();
-    loadRedes();
-    setupAppDownload();
-    
-    // Prevenir zoom con gestos
-    document.addEventListener('gesturestart', e => e.preventDefault());
-    
-    // Mejorar carga de imágenes
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-        img.addEventListener('error', function() {
-            this.src = 'https://via.placeholder.com/400x200/1a1a1a/b36bff?text=Imagen+No+Disponible';
-        });
-    });
-});
+let pendingUrl = "";
+function abrirAviso(url) { pendingUrl = url; document.getElementById('modal-aviso').style.display = 'flex'; }
+function cerrarAviso() { document.getElementById('modal-aviso').style.display = 'none'; }
+function continuarDescarga() { window.open(pendingUrl, '_blank'); cerrarAviso(); }
 
-// Smooth scroll para mejor experiencia
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-    });
-});
+document.addEventListener("DOMContentLoaded", initApp);
 

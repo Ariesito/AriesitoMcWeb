@@ -37,7 +37,6 @@ const appData = {
 };
 
 function initApp() {
-    // 1. INDICADOR NAVBAR
     const activeLink = document.querySelector('.navbar-link.active');
     const indicator = document.querySelector('.indicator');
     if (activeLink && indicator) {
@@ -45,7 +44,6 @@ function initApp() {
         indicator.style.left = `${activeLink.offsetLeft}px`;
     }
 
-    // 2. RENDER NOTICIAS (TEXTO COMPLETO, SIN ZOOM)
     const newsGrid = document.getElementById('noticias-grid');
     if (newsGrid) {
         newsGrid.innerHTML = appData.noticias.map(n => `
@@ -58,7 +56,6 @@ function initApp() {
         `).join('');
     }
 
-    // 3. RENDER PROYECTOS (GRID)
     const projGrid = document.getElementById('proyectos-grid');
     if (projGrid) {
         projGrid.innerHTML = appData.proyectos.map(p => `
@@ -71,7 +68,6 @@ function initApp() {
         `).join('');
     }
 
-    // 4. RENDER REDES
     const redesCont = document.getElementById('redes-container');
     if (redesCont) {
         redesCont.innerHTML = appData.redes.map(r => `
@@ -85,7 +81,6 @@ function initApp() {
         `).join('');
     }
 
-    // 5. DETALLE DE PROYECTO (OBSIDIAN.HTML)
     const detalleCont = document.getElementById('detalle-container');
     if (detalleCont) {
         const p = appData.proyectos.find(x => x.id === "obsidian");
@@ -112,18 +107,26 @@ function initApp() {
     }
 }
 
-// Lógica de descarga (Modal de aviso)
+// Lógica de descarga (Modal de aviso) - CORREGIDA
 let pendingUrl = "";
 function abrirAviso(url) { 
     pendingUrl = url; 
-    document.getElementById('modal-aviso').style.display = 'flex'; 
+    const modal = document.getElementById('modal-aviso');
+    modal.style.display = 'flex'; 
+    setTimeout(() => { modal.classList.add('active'); }, 10);
 }
+
 function cerrarAviso() { 
-    document.getElementById('modal-aviso').style.display = 'none'; 
+    const modal = document.getElementById('modal-aviso');
+    modal.classList.remove('active');
+    setTimeout(() => { modal.style.display = 'none'; }, 300);
 }
+
 function continuarDescarga() { 
-    window.open(pendingUrl, '_blank'); 
-    cerrarAviso(); 
+    if (pendingUrl) {
+        window.open(pendingUrl, '_blank'); 
+        cerrarAviso(); 
+    }
 }
 
 document.addEventListener("DOMContentLoaded", initApp);

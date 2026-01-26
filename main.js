@@ -1,17 +1,17 @@
 const appData = {
     noticias: [
         {
-            titulo: "Colaboración Revelada",
-            contenido: "AriesitoMc se une con Faaak para traer la textura técnica definitiva: PurpleTech V1. Aún no hay fecha de Lanzamiento.",
-            fecha: "14/01/2026",
-            icono: "bxs-zap",
-            imagen: "https://i.postimg.cc/DZt9rMP3/Purple-Tech.jpg"
+            titulo: "Ariesito Estará Inactivo",
+            contenido: "Debido a fallos técnicos críticos en su dispositivo móvil, Ariesito no podrá avanzar en los proyectos actuales. Se estima el regreso a la actividad para inicios de febrero. Gracias por la paciencia.",
+            fecha: "26/01/2026",
+            icono: "bx-error",
+            imagen: "https://i.postimg.cc/25tg6zFM/custom-ava.png"
         },
         {
-            titulo: "Obsidian: ¡Ahora será un Cliente!",
-            contenido: "Hemos decidido llevar Obsidian al siguiente nivel. Deja de ser solo una textura para convertirse en un cliente completo para añadir más personalizacion. Estará listo antes de febrero.",
-            fecha: "14/01/2026",
-            icono: "bxs-rocket",
+            titulo: "¿Obsidian Se Cancela?",
+            contenido: "La textura Obsidian dejará de recibir actualizaciones. Ariesito ha decidido pivotar el desarrollo para enfocarse en nuevos proyectos que mantengan su visión original, posiblemente un nuevo Addon en el futuro cercano.",
+            fecha: "26/01/2026",
+            icono: "bx-info-circle",
             imagen: "https://i.postimg.cc/QNSfpPNj/obsidian.png"
         }
     ],
@@ -21,7 +21,7 @@ const appData = {
             titulo: "Obsidian",
             descripcion: "El proyecto definitivo de texturas oscuras y optimización premium. Diseñado para ofrecer la mejor estética sin sacrificar FPS.",
             imagen: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
-            version: "V2.3",
+            version: "V2.3 (Final)",
             lanzamiento: "Hace 6 Meses",
             actualizacion: "Hace 5 Meses",
             caracteristicas: ["Optimización de FPS", "Interfaz Oscura", "Cielo Personalizado", "Mini Tools", "Elimina Partículas", "Texturas Personalizadas", "Colores Saturados"],
@@ -49,7 +49,7 @@ function initApp() {
         newsGrid.innerHTML = appData.noticias.map(n => `
             <div class="noticia-card" style="cursor: default;">
                 <h3 style="color: white; margin-bottom:10px;"><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
-                <img src="${n.imagen}" style="width:100%; border-radius:12px; margin-bottom:15px; border: 1px solid rgba(255,255,255,0.1);">
+                <img src="${n.imagen}" style="width:100%; border-radius:12px; margin-bottom:15px; border: 1px solid rgba(255,255,255,0.1); max-height: 200px; object-fit: cover;">
                 <p style="color: #eee; font-size: 1rem; line-height: 1.5; margin-bottom:15px;">${n.contenido}</p>
                 <small style="color: var(--morado-claro); font-weight: bold;">Publicado el: ${n.fecha}</small>
             </div>
@@ -91,7 +91,7 @@ function initApp() {
                     <h1 style="color:var(--morado-claro); margin-bottom:20px;">${p.titulo}</h1>
                     <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:15px; margin-bottom:25px; text-align: left;">
                         <p style="margin-bottom:8px;"><strong>Versión:</strong> ${p.version}</p>
-                        <p style="margin-bottom:8px;"><strong>Lanzamiento:</strong> ${p.lanzamiento}</p>
+                        <p style="margin-bottom:8px;"><strong>Estatus:</strong> Desarrollo Finalizado</p>
                         <p style="margin-bottom:8px;"><strong>Última Actualización:</strong> ${p.actualizacion}</p>
                     </div>
                     <div style="text-align: left; margin-bottom:30px;">
@@ -107,19 +107,22 @@ function initApp() {
     }
 }
 
-// Lógica de descarga (Modal de aviso) - CORREGIDA
 let pendingUrl = "";
 function abrirAviso(url) { 
     pendingUrl = url; 
     const modal = document.getElementById('modal-aviso');
-    modal.style.display = 'flex'; 
-    setTimeout(() => { modal.classList.add('active'); }, 10);
+    if(modal) {
+        modal.style.display = 'flex'; 
+        setTimeout(() => { modal.classList.add('active'); }, 10);
+    }
 }
 
 function cerrarAviso() { 
     const modal = document.getElementById('modal-aviso');
-    modal.classList.remove('active');
-    setTimeout(() => { modal.style.display = 'none'; }, 300);
+    if(modal) {
+        modal.classList.remove('active');
+        setTimeout(() => { modal.style.display = 'none'; }, 300);
+    }
 }
 
 function continuarDescarga() { 
@@ -130,4 +133,4 @@ function continuarDescarga() {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
-
+    

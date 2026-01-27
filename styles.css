@@ -12,12 +12,23 @@ body {
     padding-top: 110px;
     font-family: 'Raleway', sans-serif;
     color: white;
-    /* FIX: Imagen fija y cover total para evitar espacios blancos */
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
-                url('https://i.postimg.cc/jSZGp6Wx/388cb3e44b97ce227117e41afa31d5b8.jpg') no-repeat center center fixed;
-    background-size: cover;
+    background: #000; /* Fondo base negro mientras carga */
     min-height: 100vh;
     overflow-x: hidden;
+}
+
+/* FIX DEFINITIVO FONDO */
+.bg-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+                url('https://i.postimg.cc/jSZGp6Wx/388cb3e44b97ce227117e41afa31d5b8.jpg') no-repeat center center;
+    background-size: cover;
+    will-change: transform;
 }
 
 .top-navbar {
@@ -45,7 +56,7 @@ body {
 .glass {
     background: var(--glass-bg); backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px; padding: 1.5rem; /* Reducido para compactar */
+    border-radius: 20px; padding: 1.5rem;
     max-width: 90%; width: 800px; margin: 0 auto 2rem auto;
 }
 
@@ -63,19 +74,9 @@ body {
 }
 .btn-show-more:hover { background: var(--morado); }
 
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
-    display: none; justify-content: center; align-items: center;
-    z-index: 9999; opacity: 0; transition: opacity 0.3s ease;
-}
-.modal-overlay.active { opacity: 1; }
-
 .btn-download {
     display: block; width: 100%; text-align: center; padding: 15px;
     background: var(--morado); color: white; border-radius: 12px;
     text-decoration: none; font-weight: bold; border: none; cursor: pointer;
     transition: 0.3s;
-}
-.btn-download:hover { background: var(--morado-claro); transform: translateY(-2px); }
-    
+    }

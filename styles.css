@@ -1,82 +1,82 @@
-:root {
-    --morado: #8a2be2;
-    --morado-claro: #b36bff;
-    --navbar-bg: rgba(10, 10, 15, 0.98);
-    --glass-bg: rgba(20, 20, 25, 0.85);
-    --transition: all 0.3s ease;
-}
+const appData = {
+    noticias: [
+        {
+            titulo: "¡Confirmado: Survival Comunitario!",
+            contenido: "Es oficial. AriesitoMc abrirá un servidor Survival para toda la comunidad. La apertura está programada para mediados de febrero. ¡Prepara tus herramientas!",
+            fecha: "27/01/2026",
+            icono: "bx-server",
+            imagen: "" 
+        },
+        {
+            titulo: "Optimización Visual Desplegada",
+            contenido: "Se ha corregido el error del fondo y el parpadeo visual. La navegación ahora es fluida en todos los dispositivos.",
+            fecha: "27/01/2026",
+            icono: "bx-paint",
+            imagen: "" 
+        },
+        {
+            titulo: "Bugs Críticos Solucionados",
+            contenido: "Corrección de errores en el sistema de noticias y visualización de tarjetas en dispositivos móviles.",
+            fecha: "27/01/2026",
+            icono: "bx-bug-alt",
+            imagen: "" 
+        }
+    ],
+    proyectos: [], // Obsidian eliminado por cancelación
+    redes: [
+        { nombre: "YouTube", desc: "Tutoriales y Reviews", url: "https://www.youtube.com/@soyariesitomc", icono: "bxl-youtube", color: "#ff0000" },
+        { nombre: "WhatsApp", desc: "Canal de Noticias", url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", icono: "bxl-whatsapp", color: "#25D366" }
+    ]
+};
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+let showingAllNews = false;
 
-body {
-    padding-top: 110px;
-    font-family: 'Raleway', sans-serif;
-    color: white;
-    background: #000; /* Fondo base negro mientras carga */
-    min-height: 100vh;
-    overflow-x: hidden;
-}
+function renderNoticias() {
+    const newsGrid = document.getElementById('noticias-grid');
+    if (!newsGrid) return;
 
-/* FIX DEFINITIVO FONDO */
-.bg-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
-                url('https://i.postimg.cc/jSZGp6Wx/388cb3e44b97ce227117e41afa31d5b8.jpg') no-repeat center center;
-    background-size: cover;
-    will-change: transform;
-}
+    const noticiasParaMostrar = showingAllNews ? appData.noticias : appData.noticias.slice(0, 3);
+    
+    let html = noticiasParaMostrar.map(n => `
+        <div class="noticia-card">
+            <h3 style="color: white; margin-bottom:10px;"><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
+            ${n.imagen ? `<img src="${n.imagen}" style="width:100%; border-radius:12px; margin-bottom:15px; border: 1px solid rgba(255,255,255,0.1);">` : ''}
+            <p style="color: #eee; font-size: 0.95rem; line-height: 1.4; margin-bottom:10px;">${n.contenido}</p>
+            <small style="color: var(--morado-claro); font-weight: bold;">[${n.fecha}]</small>
+        </div>
+    `).join('');
 
-.top-navbar {
-    position: fixed; top: 0; left: 0; width: 100%; height: 90px;
-    background: var(--navbar-bg); backdrop-filter: blur(15px);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 5000; border-bottom: 1px solid rgba(138, 43, 226, 0.3);
-}
-
-.navbar-links { position: relative; display: flex; gap: 5px; }
-.navbar-link {
-    text-decoration: none; color: rgba(255, 255, 255, 0.5);
-    width: 90px; height: 70px; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; font-size: 0.75rem;
-    font-weight: 700; z-index: 2; transition: var(--transition);
-}
-.navbar-link i { font-size: 1.8rem; margin-bottom: 4px; }
-.navbar-link.active { color: white; }
-.indicator {
-    position: absolute; height: 70px; width: 90px;
-    background: var(--morado); border-radius: 12px;
-    z-index: 1; transition: var(--transition);
-}
-
-.glass {
-    background: var(--glass-bg); backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px; padding: 1.5rem;
-    max-width: 90%; width: 800px; margin: 0 auto 2rem auto;
-}
-
-.noticia-card {
-    background: rgba(255, 255, 255, 0.05); padding: 1.2rem;
-    border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: 0.3s; margin-bottom: 1rem;
-}
-
-.btn-show-more {
-    display: block; width: fit-content; margin: 10px auto;
-    padding: 10px 25px; background: rgba(138, 43, 226, 0.2);
-    border: 1px solid var(--morado); color: white; border-radius: 30px;
-    cursor: pointer; font-weight: bold; transition: 0.3s;
-}
-.btn-show-more:hover { background: var(--morado); }
-
-.btn-download {
-    display: block; width: 100%; text-align: center; padding: 15px;
-    background: var(--morado); color: white; border-radius: 12px;
-    text-decoration: none; font-weight: bold; border: none; cursor: pointer;
-    transition: 0.3s;
+    if (appData.noticias.length > 3) {
+        html += `<button class="btn-show-more" onclick="toggleNews()">${showingAllNews ? 'Cerrar Historial' : 'Ver Noticias Anteriores'}</button>`;
     }
+
+    newsGrid.innerHTML = html;
+}
+
+function toggleNews() {
+    showingAllNews = !showingAllNews;
+    renderNoticias();
+}
+
+function initApp() {
+    const activeLink = document.querySelector('.navbar-link.active');
+    const indicator = document.querySelector('.indicator');
+    if (activeLink && indicator) {
+        indicator.style.width = `${activeLink.offsetWidth}px`;
+        indicator.style.left = `${activeLink.offsetLeft}px`;
+    }
+
+    renderNoticias();
+
+    const redesCont = document.getElementById('redes-container');
+    if (redesCont) {
+        redesCont.innerHTML = appData.redes.map(r => `
+            <div class="noticia-card" onclick="window.location.href='${r.url}'" style="display:flex; align-items:center; gap:15px; cursor:pointer;">
+                <i class='bx ${r.icono}' style="color:${r.color}; font-size: 2rem;"></i>
+                <div><h3 style="margin:0;">${r.nombre}</h3></div>
+            </div>
+        `).join('');
+    }
+}
+
+document.addEventListener("DOMContentLoaded", initApp);

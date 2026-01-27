@@ -12,9 +12,11 @@ body {
     padding-top: 110px;
     font-family: 'Raleway', sans-serif;
     color: white;
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+    /* FIX: Imagen fija y cover total para evitar espacios blancos */
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
                 url('https://i.postimg.cc/jSZGp6Wx/388cb3e44b97ce227117e41afa31d5b8.jpg') no-repeat center center fixed;
     background-size: cover;
+    min-height: 100vh;
     overflow-x: hidden;
 }
 
@@ -43,17 +45,24 @@ body {
 .glass {
     background: var(--glass-bg); backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px; padding: 2rem;
+    border-radius: 20px; padding: 1.5rem; /* Reducido para compactar */
     max-width: 90%; width: 800px; margin: 0 auto 2rem auto;
 }
 
 .noticia-card {
-    background: rgba(255, 255, 255, 0.05); padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05); padding: 1.2rem;
     border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: 0.3s; margin-bottom: 1.5rem;
+    transition: 0.3s; margin-bottom: 1rem;
 }
 
-/* MODAL CORREGIDO */
+.btn-show-more {
+    display: block; width: fit-content; margin: 10px auto;
+    padding: 10px 25px; background: rgba(138, 43, 226, 0.2);
+    border: 1px solid var(--morado); color: white; border-radius: 30px;
+    cursor: pointer; font-weight: bold; transition: 0.3s;
+}
+.btn-show-more:hover { background: var(--morado); }
+
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
@@ -69,4 +78,4 @@ body {
     transition: 0.3s;
 }
 .btn-download:hover { background: var(--morado-claro); transform: translateY(-2px); }
-
+    

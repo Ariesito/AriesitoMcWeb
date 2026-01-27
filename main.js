@@ -21,10 +21,20 @@ const appData = {
     ],
     proyectos: [
         {
+            id: "survival",
             titulo: "Survival Ariesito",
             descripcion: "El servidor definitivo para la comunidad. Apertura: Febrero 2026.",
             imagen: "https://i.postimg.cc/25tg6zFM/custom-ava.png",
-            estado: "Próximamente"
+            estado: "PRÓXIMAMENTE",
+            link: "#"
+        },
+        {
+            id: "obsidian",
+            titulo: "Obsidian Pack",
+            descripcion: "Texturas oscuras y optimización premium. (Proyecto Finalizado)",
+            imagen: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
+            estado: "LEGADO",
+            link: "obsidian.html"
         }
     ],
     redes: [
@@ -63,39 +73,44 @@ function toggleNews() {
 }
 
 function initApp() {
-    // FIX NAV INDICATOR: Busca el link activo actual
-    const activeLink = document.querySelector('.navbar-link.active');
-    const indicator = document.querySelector('.indicator');
-    if (activeLink && indicator) {
-        indicator.style.width = `${activeLink.offsetWidth}px`;
-        indicator.style.left = `${activeLink.offsetLeft}px`;
-    }
+    // FIX NAV INDICATOR: Forzamos el cálculo después de un pequeño delay para que el DOM esté listo
+    setTimeout(() => {
+        const activeLink = document.querySelector('.navbar-link.active');
+        const indicator = document.querySelector('.indicator');
+        if (activeLink && indicator) {
+            indicator.style.width = `${activeLink.offsetWidth}px`;
+            indicator.style.left = `${activeLink.offsetLeft}px`;
+        }
+    }, 50);
 
-    // Render Noticias (Página Inicio)
+    // Render Noticias
     renderNoticias();
 
-    // Render Proyectos (Página Proyectos)
+    // Render Proyectos
     const projGrid = document.getElementById('proyectos-grid');
     if (projGrid) {
         projGrid.innerHTML = appData.proyectos.map(p => `
             <div class="noticia-card" style="text-align:center;">
-                <img src="${p.imagen}" style="width:120px; margin-bottom:1rem; filter: drop-shadow(0 0 10px var(--morado));">
+                <img src="${p.imagen}" style="width:110px; margin-bottom:1rem; filter: drop-shadow(0 0 8px var(--morado));">
                 <h3>${p.titulo}</h3>
-                <p style="color: #bbb; margin: 10px 0;">${p.descripcion}</p>
-                <span style="color: var(--morado-claro); font-weight:bold;">${p.estado}</span>
+                <p style="color: #bbb; font-size: 0.85rem; margin: 10px 0;">${p.descripcion}</p>
+                <div style="margin-top:15px;">
+                    <span style="display:block; font-size:0.7rem; color:var(--morado-claro); font-weight:bold; margin-bottom:10px;">${p.estado}</span>
+                    ${p.link !== "#" ? `<a href="${p.link}" class="btn-download" style="padding: 8px; font-size:0.8rem;">Ver Proyecto</a>` : ''}
+                </div>
             </div>
         `).join('');
     }
 
-    // Render Redes (Página Redes)
+    // Render Redes
     const redesCont = document.getElementById('redes-container');
     if (redesCont) {
         redesCont.innerHTML = appData.redes.map(r => `
-            <div class="noticia-card" onclick="window.location.href='${r.url}'" style="display:flex; align-items:center; gap:20px; cursor:pointer;">
-                <i class='bx ${r.icono}' style="color:${r.color}; font-size: 2.5rem;"></i>
+            <div class="noticia-card card-clickable" onclick="window.location.href='${r.url}'" style="display:flex; align-items:center; gap:20px; cursor:pointer;">
+                <i class='bx ${r.icono}' style="color:${r.color}; font-size: 2.2rem;"></i>
                 <div>
-                    <h3 style="margin:0;">${r.nombre}</h3>
-                    <p style="margin:0; font-size: 0.85rem; color: #aaa;">${r.desc}</p>
+                    <h3 style="margin:0; font-size:1.1rem;">${r.nombre}</h3>
+                    <p style="margin:0; font-size: 0.8rem; color: #aaa;">${r.desc}</p>
                 </div>
             </div>
         `).join('');
@@ -103,4 +118,3 @@ function initApp() {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
-        

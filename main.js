@@ -34,7 +34,11 @@ const appData = {
             descripcion: "Texturas oscuras y optimización premium. (Proyecto Finalizado)",
             imagen: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
             estado: "LEGADO",
-            link: "obsidian.html"
+            link: "obsidian.html",
+            version: "V2.3 (Final)",
+            actualizacion: "Hace 5 Meses",
+            enlace: "https://link-target.net/1356996/zMa3fwoanGAK",
+            caracteristicas: ["Optimización de FPS", "Interfaz Oscura", "Cielo Personalizado", "Mini Tools", "Elimina Partículas"]
         }
     ],
     redes: [
@@ -46,13 +50,12 @@ const appData = {
 };
 
 let showingAllNews = false;
+let pendingUrl = "";
 
 function renderNoticias() {
     const newsGrid = document.getElementById('noticias-grid');
     if (!newsGrid) return;
-
     const noticiasParaMostrar = showingAllNews ? appData.noticias : appData.noticias.slice(0, 3);
-    
     let html = noticiasParaMostrar.map(n => `
         <div class="noticia-card">
             <h3 style="color: white; margin-bottom:10px;"><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
@@ -60,20 +63,37 @@ function renderNoticias() {
             <small style="color: var(--morado-claro); font-weight: bold;">[${n.fecha}]</small>
         </div>
     `).join('');
-
     if (appData.noticias.length > 3) {
         html += `<button class="btn-show-more" onclick="toggleNews()">${showingAllNews ? 'Cerrar Historial' : 'Ver Noticias Anteriores'}</button>`;
     }
     newsGrid.innerHTML = html;
 }
 
-function toggleNews() {
-    showingAllNews = !showingAllNews;
-    renderNoticias();
+function toggleNews() { showingAllNews = !showingAllNews; renderNoticias(); }
+
+// LOGICA DE MODAL
+function abrirAviso(url) { 
+    pendingUrl = url; 
+    const modal = document.getElementById('modal-aviso');
+    if(modal) {
+        modal.style.display = 'flex'; 
+        setTimeout(() => { modal.classList.add('active'); }, 10);
+    }
+}
+
+function cerrarAviso() { 
+    const modal = document.getElementById('modal-aviso');
+    if(modal) {
+        modal.classList.remove('active');
+        setTimeout(() => { modal.style.display = 'none'; }, 300);
+    }
+}
+
+function continuarDescarga() { 
+    if (pendingUrl) { window.open(pendingUrl, '_blank'); cerrarAviso(); }
 }
 
 function initApp() {
-    // FIX NAV INDICATOR: Forzamos el cálculo después de un pequeño delay para que el DOM esté listo
     setTimeout(() => {
         const activeLink = document.querySelector('.navbar-link.active');
         const indicator = document.querySelector('.indicator');
@@ -81,9 +101,8 @@ function initApp() {
             indicator.style.width = `${activeLink.offsetWidth}px`;
             indicator.style.left = `${activeLink.offsetLeft}px`;
         }
-    }, 50);
+    }, 100);
 
-    // Render Noticias
     renderNoticias();
 
     // Render Proyectos
@@ -96,17 +115,43 @@ function initApp() {
                 <p style="color: #bbb; font-size: 0.85rem; margin: 10px 0;">${p.descripcion}</p>
                 <div style="margin-top:15px;">
                     <span style="display:block; font-size:0.7rem; color:var(--morado-claro); font-weight:bold; margin-bottom:10px;">${p.estado}</span>
-                    ${p.link !== "#" ? `<a href="${p.link}" class="btn-download" style="padding: 8px; font-size:0.8rem;">Ver Proyecto</a>` : ''}
+                    ${p.link !== "#" ? `<a href="${p.link}" class="btn-download" style="padding: 8px; font-size:0.8rem; text-decoration:none;">Ver Detalles</a>` : ''}
                 </div>
             </div>
         `).join('');
+    }
+
+    // Render Detalle (Específico para obsidian.html)
+    const detalleCont = document.getElementById('detalle-container');
+    if (detalleCont) {
+        const p = appData.proyectos.find(x => x.id === "obsidian");
+        if (p) {
+            detalleCont.innerHTML = `
+                <div class="glass" style="text-align: center; margin-top: 20px;">
+                    <img src="${p.imagen}" style="width:150px; margin-bottom:20px; filter: drop-shadow(0 0 15px var(--morado));">
+                    <h1 style="color:var(--morado-claro); margin-bottom:20px;">${p.titulo}</h1>
+                    <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:15px; margin-bottom:25px; text-align: left;">
+                        <p style="margin-bottom:8px;"><strong>Estatus:</strong> ${p.estado}</p>
+                        <p style="margin-bottom:8px;"><strong>Versión:</strong> ${p.version}</p>
+                        <p style="margin-bottom:8px;"><strong>Última Act.:</strong> ${p.actualizacion}</p>
+                    </div>
+                    <div style="text-align: left; margin-bottom:30px;">
+                        <h4 style="color: var(--morado-claro); margin-bottom:15px;">CARACTERÍSTICAS:</h4>
+                        <ul style="list-style: none;">
+                            ${p.caracteristicas.map(c => `<li style="margin-bottom:10px;"><i class='bx bx-check-circle' style="color:var(--morado-claro)"></i> ${c}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <button onclick="abrirAviso('${p.enlace}')" class="btn-download" style="width:100%; border:none; cursor:pointer;">Descargar Ahora</button>
+                </div>
+            `;
+        }
     }
 
     // Render Redes
     const redesCont = document.getElementById('redes-container');
     if (redesCont) {
         redesCont.innerHTML = appData.redes.map(r => `
-            <div class="noticia-card card-clickable" onclick="window.location.href='${r.url}'" style="display:flex; align-items:center; gap:20px; cursor:pointer;">
+            <div class="noticia-card" onclick="window.location.href='${r.url}'" style="display:flex; align-items:center; gap:20px; cursor:pointer;">
                 <i class='bx ${r.icono}' style="color:${r.color}; font-size: 2.2rem;"></i>
                 <div>
                     <h3 style="margin:0; font-size:1.1rem;">${r.nombre}</h3>
@@ -118,3 +163,4 @@ function initApp() {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
+        

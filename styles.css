@@ -17,7 +17,7 @@ body {
     overflow-x: hidden;
 }
 
-/* SOLUCIÓN AL BUG DEL FONDO */
+/* FONDO GLOBAL UNIFICADO */
 .bg-fixed {
     position: fixed;
     top: 0;
@@ -28,8 +28,30 @@ body {
     background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
                 url('https://i.postimg.cc/jSZGp6Wx/388cb3e44b97ce227117e41afa31d5b8.jpg') no-repeat center center;
     background-size: cover;
-    will-change: transform;
 }
+
+/* ANIMACIÓN DE CARGA INICIAL */
+#loader-wrapper {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #0a0a0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.loader-circle {
+    width: 60px; height: 60px;
+    border: 4px solid rgba(138, 43, 226, 0.1);
+    border-top: 4px solid var(--morado-claro);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 .top-navbar {
     position: fixed; top: 0; left: 0; width: 100%; height: 90px;
@@ -67,24 +89,12 @@ body {
     transition: 0.3s; margin-bottom: 1.5rem;
 }
 
-/* FIX MODAL CENTRADO Y DIFUMINADO */
-.modal-overlay {
-    position: fixed; top: 0; left: 0; 
-    width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.9); 
-    backdrop-filter: blur(15px); 
-    display: none; justify-content: center; align-items: center;
-    z-index: 10000; opacity: 0; transition: 0.3s ease;
-}
-.modal-overlay.active { opacity: 1; display: flex; }
-
 .btn-show-more {
     display: block; width: fit-content; margin: 10px auto;
     padding: 10px 25px; background: rgba(138, 43, 226, 0.2);
     border: 1px solid var(--morado); color: white; border-radius: 30px;
     cursor: pointer; font-weight: bold; transition: 0.3s;
 }
-.btn-show-more:hover { background: var(--morado); }
 
 .btn-download {
     display: block; width: 100%; text-align: center; padding: 15px;
@@ -92,4 +102,12 @@ body {
     text-decoration: none; font-weight: bold; border: none; cursor: pointer;
     transition: 0.3s;
 }
-.btn-download:hover { background: var(--morado-claro); transform: translateY(-2px); }
+
+/* MODAL CENTRADO */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px);
+    display: none; justify-content: center; align-items: center;
+    z-index: 10000; opacity: 0; transition: 0.3s ease;
+}
+.modal-overlay.active { opacity: 1; display: flex; }

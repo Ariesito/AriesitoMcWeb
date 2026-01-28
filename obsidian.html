@@ -1,40 +1,153 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AriesitoMc | Obsidian</title>
-    <meta name="description" content="Web Oficial de AriesitoMc">
-    <link rel="icon" href="https://i.postimg.cc/25tg6zFM/custom-ava.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <nav class="top-navbar">
-        <div class="navbar-links">
-            <a href="index.html" class="navbar-link"><i class='bx bxs-home'></i><span>Inicio</span></a>
-            <a href="proyectos.html" class="navbar-link active"><i class='bx bxs-folder-open'></i><span>Proyectos</span></a>
-            <a href="redes.html" class="navbar-link"><i class='bx bxs-share-alt'></i><span>Redes</span></a>
-            <span class="indicator"></span>
-        </div>
-    </nav>
+// INTERRUPTOR DE MANTENIMIENTO (On = true / Off = false)
+const mantenimientoActivo = false; 
 
-    <div id="main">
-        <div id="detalle-container"></div>
-    </div>
+// Bypass para administrador: si la URL contiene ?admin=true, ignora el mantenimiento
+const isAdmin = new URLSearchParams(window.location.search).get('admin') === 'true';
 
-    <div id="modal-aviso" class="modal-overlay">
-        <div class="glass" style="max-width:400px; text-align:center; background:#111; border: 1px solid var(--morado);">
-            <h2 style="color: #ff4d4d; margin-bottom: 1rem;">¡Atención!</h2>
-            <p>Estás saliendo a un enlace externo para descargar el archivo.</p>
-            <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
-                <button class="btn-download" onclick="continuarDescarga()">Continuar</button>
-                <button class="btn-download" style="background:#333;" onclick="cerrarAviso()">Cancelar</button>
+if (mantenimientoActivo && !isAdmin) {
+    document.addEventListener("DOMContentLoaded", () => {
+        document.body.innerHTML = `
+            <div class="bg-fixed"></div>
+            <div style="height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
+                <div class="glass" style="max-width: 500px;">
+                    <h1 style="color: var(--morado-claro); margin-bottom: 20px;">🛠️ En Mantenimiento</h1>
+                    <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px;">
+                        En estos momentos nos encontramos trabajando en la Web por lo que no estará disponible por un momento. Por favor, espere.
+                    </p>
+                    <div class="loader-bucle"></div>
+                </div>
             </div>
-        </div>
-    </div>
+        `;
+    });
+}
 
-    <script src="main.js"></script>
-</body>
-</html>
+const appData = {
+    noticias: [
+        {
+            titulo: "¡Confirmado: Survival Comunitario!",
+            contenido: "Es oficial. AriesitoMc abrirá un servidor Survival para toda la comunidad a mediados de febrero. ¡Prepara tus herramientas!",
+            fecha: "27/01/2026",
+            icono: "bx-server"
+        },
+        {
+            titulo: "Optimización Visual Desplegada",
+            contenido: "Hemos corregido errores de carga en el fondo y mejorado la fluidez del scroll.",
+            fecha: "27/01/2026",
+            icono: "bx-paint"
+        }
+    ],
+    proyectos: [
+        {
+            id: "survival",
+            titulo: "Survival Ariesito",
+            descripcion: "Servidor Survival técnico y comunitario. Apertura programada para mediados de febrero.",
+            imagen: "https://i.postimg.cc/25tg6zFM/custom-ava.png",
+            estado: "PRÓXIMAMENTE",
+            link: "#"
+        },
+        {
+            id: "obsidian",
+            titulo: "Obsidian Optimizador",
+            descripcion: "El optimizador definitivo diseñado para maximizar tus FPS y reducir el Input Lag. No es solo estética, es rendimiento puro para hardware de gama baja y competitivos.",
+            imagen: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
+            estado: "LEGADO",
+            link: "obsidian.html",
+            version: "V2.3 (Final)",
+            actualizacion: "Hace 5 Meses",
+            enlace: "https://link-target.net/1356996/zMa3fwoanGAK",
+            caracteristicas: ["Boost de FPS (Hasta +40%)", "Reducción de Latencia", "Cielos Optimizados", "Mini Tools de Combate", "Eliminación de Partículas Innecesarias"]
+        }
+    ],
+    redes: [
+        { nombre: "YouTube", desc: "Tutoriales", url: "https://www.youtube.com/@soyariesitomc", icono: "bxl-youtube", color: "#ff0000" },
+        { nombre: "TikTok", desc: "Clips", url: "https://www.tiktok.com/@soyariesitomc", icono: "bxl-tiktok", color: "#ff0050" },
+        { nombre: "Discord", desc: "Comunidad", url: "https://discord.gg/DgrckyxNMr", icono: "bxl-discord-alt", color: "#5865F2" },
+        { nombre: "WhatsApp", desc: "Canal", url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", icono: "bxl-whatsapp", color: "#25D366" }
+    ]
+};
+
+let pendingUrl = "";
+
+function abrirAviso(url) { 
+    pendingUrl = url; 
+    const modal = document.getElementById('modal-aviso');
+    if(modal) {
+        modal.style.display = 'flex'; 
+        document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+        setTimeout(() => { modal.classList.add('active'); }, 10);
+    }
+}
+
+function cerrarAviso() { 
+    const modal = document.getElementById('modal-aviso');
+    if(modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        setTimeout(() => { modal.style.display = 'none'; }, 300);
+    }
+}
+
+function continuarDescarga() { 
+    if (pendingUrl) { window.open(pendingUrl, '_blank'); cerrarAviso(); }
+}
+
+function initApp() {
+    if (mantenimientoActivo && !isAdmin) return;
+
+    // Renderizado de secciones
+    const activeLink = document.querySelector('.navbar-link.active');
+    const indicator = document.querySelector('.indicator');
+    if (activeLink && indicator) {
+        indicator.style.width = `${activeLink.offsetWidth}px`;
+        indicator.style.left = `${activeLink.offsetLeft}px`;
+    }
+
+    const newsGrid = document.getElementById('noticias-grid');
+    if (newsGrid) {
+        newsGrid.innerHTML = appData.noticias.map(n => `
+            <div class="noticia-card">
+                <h3><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
+                <p>${n.contenido}</p>
+                <small>[${n.fecha}]</small>
+            </div>
+        `).join('');
+    }
+
+    const projGrid = document.getElementById('proyectos-grid');
+    if (projGrid) {
+        projGrid.innerHTML = appData.proyectos.map(p => `
+            <div class="noticia-card" style="text-align:center;">
+                <img src="${p.imagen}" style="width:110px; margin-bottom:1rem; filter: drop-shadow(0 0 8px var(--morado));">
+                <h3>${p.titulo}</h3>
+                <p style="color: #bbb; font-size: 0.85rem; margin: 10px 0;">${p.descripcion}</p>
+                <a href="${p.link}" class="btn-download" style="padding: 8px; font-size:0.8rem;">Ver Detalles</a>
+            </div>
+        `).join('');
+    }
+
+    const detalleCont = document.getElementById('detalle-container');
+    if (detalleCont) {
+        const p = appData.proyectos.find(x => x.id === "obsidian");
+        if (p) {
+            detalleCont.innerHTML = `
+                <div class="glass" style="text-align: center; margin-top: 20px;">
+                    <img src="${p.imagen}" style="width:150px; margin-bottom:20px; filter: drop-shadow(0 0 15px var(--morado));">
+                    <h1 style="color:var(--morado-claro);">${p.titulo}</h1>
+                    <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin:20px 0; text-align: left;">
+                        <p><strong>Tipo:</strong> Optimizador de Rendimiento</p>
+                        <p><strong>Versión:</strong> ${p.version}</p>
+                        <p><strong>Actualización:</strong> ${p.actualizacion}</p>
+                    </div>
+                    <div style="text-align: left; margin-bottom:30px;">
+                        <h4 style="color: var(--morado-claro); margin-bottom:15px;">RENDIMIENTO COMPROBADO:</h4>
+                        <ul style="list-style: none;">
+                            ${p.caracteristicas.map(c => `<li style="margin-bottom:10px;"><i class='bx bx-bolt-circle' style="color:var(--morado-claro)"></i> ${c}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <button onclick="abrirAviso('${p.enlace}')" class="btn-download">Descargar Ahora</button>
+                </div>
+            `;
+        }
+    }
+}
+document.addEventListener("DOMContentLoaded", initApp);

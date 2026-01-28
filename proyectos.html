@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8"><title>AriesitoMc | Proyectos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AriesitoMc | Proyectos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="bg-fixed"></div>
     <nav class="top-navbar">
         <div class="navbar-links">
             <a href="index.html" class="navbar-link"><i class='bx bxs-home'></i><span>Inicio</span></a>
@@ -15,10 +17,14 @@
             <span class="indicator"></span>
         </div>
     </nav>
+
     <div id="main">
+        <div class="logo-container" style="text-align:center; margin-bottom: 20px;">
+            <img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" style="width: 100px; filter: drop-shadow(0 0 10px var(--morado));">
+        </div>
         <section class="glass">
-            <h2 style="text-align: center; margin-bottom: 2rem;">Mis Proyectos</h2>
-            <div id="proyectos-grid"></div>
+            <h2 style="text-align: center; margin-bottom: 2rem; font-family:'Montserrat';">MIS PROYECTOS</h2>
+            <div id="proyectos-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;"></div>
         </section>
     </div>
     <script src="main.js"></script>

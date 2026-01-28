@@ -16,31 +16,21 @@ window.addEventListener('load', () => {
 const appData = {
     noticias: [
         { titulo: "Survival Comunitario", contenido: "AriesitoMc abrirá un servidor Survival para toda la comunidad a mediados de febrero. ¡Prepárate!", fecha: "27/01/2026", icono: "bx-server" },
-        { titulo: "Optimización Desplegada", contenido: "Se ha corregido el error del fondo y el diseño Glassmorphism ha sido mejorado.", fecha: "27/01/2026", icono: "bx-paint" },
-        { titulo: "Bugs Críticos Solucionados", contenido: "Corrección de errores en navegación y modal de descarga para una mejor experiencia.", fecha: "27/01/2026", icono: "bx-bug-alt" },
-        // OCULTAS (Anteriores)
-        { 
-            titulo: "Estado: Inactivo Temporalmente", 
-            contenido: "Estaré ausente por un tiempo indefinido debido a que actualmente no cuento con dispositivo móvil. Agradezco su paciencia.", 
-            fecha: "20/01/2026", 
-            icono: "bx-mobile-vibration" 
-        },
-        { 
-            titulo: "Obsidian: El Fin de un Legado", 
-            contenido: "Tras meses de rendimiento impecable, Obsidian ya no recibirá más actualizaciones. El proyecto queda archivado en su versión más estable para siempre.", 
-            fecha: "15/01/2026", 
-            icono: "bx-archive" 
-        }
+        { titulo: "Optimización Desplegada", contenido: "Se ha corregido el error del fondo y el diseño Glass Dark ha sido aplicado.", fecha: "27/01/2026", icono: "bx-paint" },
+        { titulo: "Bugs Críticos Solucionados", contenido: "Navegación fluida y responsiva garantizada en todas las secciones.", fecha: "27/01/2026", icono: "bx-bug-alt" },
+        // OCULTAS
+        { titulo: "Aviso de Inactividad", contenido: "Estaré ausente por un tiempo indefinido debido a que no cuento con dispositivo móvil en estos momentos. Gracias por entender.", fecha: "20/01/2026", icono: "bx-mobile-vibration" },
+        { titulo: "Obsidian: Fin de un Legado", contenido: "Obsidian alcanza su versión final estable. El proyecto se detiene aquí para quedar como el estándar de optimización de la comunidad.", fecha: "15/01/2026", icono: "bx-archive" }
     ],
     proyectos: [
-        { id: "survival", titulo: "Survival Ariesito", desc: "Servidor técnico comunitario. Hype para febrero.", img: "https://i.postimg.cc/25tg6zFM/custom-ava.png", link: "#" },
-        { id: "obsidian", titulo: "Obsidian Optimizador", desc: "Boost de FPS y reducción de Input Lag. Rendimiento puro.", img: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png", link: "obsidian.html", enlace: "https://link-target.net/1356996/zMa3fwoanGAK" }
+        { id: "survival", titulo: "Survival Ariesito", desc: "El servidor definitivo para la comunidad.", img: "https://i.postimg.cc/25tg6zFM/custom-ava.png", link: "#" },
+        { id: "obsidian", titulo: "Obsidian Optimizador", desc: "Máximos FPS e Input Lag mínimo. Rendimiento puro.", img: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png", link: "obsidian.html", enlace: "https://link-target.net/1356996/zMa3fwoanGAK" }
     ],
     redes: [
-        { nombre: "YouTube", url: "https://www.youtube.com/@soyariesitomc", icono: "bxl-youtube", color: "#ff0000" },
-        { nombre: "TikTok", url: "https://www.tiktok.com/@soyariesitomc", icono: "bxl-tiktok", color: "#fff" },
-        { nombre: "WhatsApp", url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", icono: "bxl-whatsapp", color: "#25D366" },
-        { nombre: "Discord", url: "https://discord.gg/DgrckyxNMr", icono: "bxl-discord-alt", color: "#5865F2" }
+        { nombre: "YouTube", desc: "Tutoriales, Texturas y Optimización.", url: "https://www.youtube.com/@soyariesitomc", icono: "bxl-youtube", color: "#ff0000" },
+        { nombre: "TikTok", desc: "Clips rápidos y noticias de último momento.", url: "https://www.tiktok.com/@soyariesitomc", icono: "bxl-tiktok", color: "#fff" },
+        { nombre: "WhatsApp", desc: "Canal oficial para anuncios directos.", url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", icono: "bxl-whatsapp", color: "#25D366" },
+        { nombre: "Discord", desc: "La casa de la comunidad. Charla y soporte.", url: "https://discord.gg/DgrckyxNMr", icono: "bxl-discord-alt", color: "#5865F2" }
     ]
 };
 
@@ -53,11 +43,9 @@ function renderNoticias() {
     const items = showingAllNews ? appData.noticias : appData.noticias.slice(0, 3);
     newsGrid.innerHTML = items.map(n => `
         <div class="noticia-card">
-            <h3 style="margin-bottom:10px;"><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
-            <p style="color: #ccc; font-size: 0.95rem; line-height: 1.5;">${n.contenido}</p>
-            <div style="margin-top:15px; border-top:1px solid rgba(255,255,255,0.05); padding-top:10px;">
-                <small style="color:var(--morado-claro); font-weight:bold;">${n.fecha}</small>
-            </div>
+            <h3><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
+            <p style="color:#bbb; font-size:0.9rem; margin:8px 0;">${n.contenido}</p>
+            <small style="color:var(--morado-claro); font-weight:bold;">${n.fecha}</small>
         </div>
     `).join('') + (appData.noticias.length > 3 ? `<button class="btn-show-more" onclick="toggleNews()">${showingAllNews ? 'Ver menos' : 'Ver noticias anteriores'}</button>` : '');
 }
@@ -78,15 +66,6 @@ function cerrarAviso() {
 function continuarDescarga() { if (pendingUrl) { window.open(pendingUrl, '_blank'); cerrarAviso(); } }
 
 function initApp() {
-    setTimeout(() => {
-        const activeLink = document.querySelector('.navbar-link.active');
-        const indicator = document.querySelector('.indicator');
-        if (activeLink && indicator) {
-            indicator.style.width = `${activeLink.offsetWidth}px`;
-            indicator.style.left = `${activeLink.offsetLeft}px`;
-        }
-    }, 100);
-
     renderNoticias();
 
     const redesCont = document.getElementById('redes-container');
@@ -94,7 +73,10 @@ function initApp() {
         redesCont.innerHTML = appData.redes.map(r => `
             <div class="noticia-card" onclick="window.location.href='${r.url}'" style="cursor:pointer; display:flex; align-items:center; gap:20px;">
                 <i class='bx ${r.icono}' style="font-size:2.5rem; color:${r.color}"></i>
-                <h3 style="margin:0;">${r.nombre}</h3>
+                <div>
+                    <h3 style="margin:0;">${r.nombre}</h3>
+                    <p style="font-size:0.8rem; color:#aaa; margin-top:4px;">${r.desc}</p>
+                </div>
             </div>
         `).join('');
     }
@@ -103,10 +85,10 @@ function initApp() {
     if (projGrid) {
         projGrid.innerHTML = appData.proyectos.map(p => `
             <div class="noticia-card" style="text-align:center;">
-                <img src="${p.img}" style="width:100px; margin-bottom:15px; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
+                <img src="${p.img}" style="width:80px; margin-bottom:15px;">
                 <h3>${p.titulo}</h3>
-                <p style="font-size:0.9rem; margin:15px 0; color:#bbb;">${p.desc}</p>
-                <a href="${p.link}" class="btn-download" style="padding:12px; font-size:0.85rem;">Ver Detalles Técnicos</a>
+                <p style="font-size:0.85rem; margin:10px 0; color:#bbb;">${p.desc}</p>
+                <a href="${p.link}" class="btn-download" style="padding:10px; font-size:0.8rem;">Ver Detalles</a>
             </div>
         `).join('');
     }
@@ -116,13 +98,13 @@ function initApp() {
         const p = appData.proyectos.find(x => x.id === "obsidian");
         det.innerHTML = `
             <div class="glass" style="text-align: center;">
-                <img src="${p.img}" style="width:140px; margin-bottom:20px; filter: drop-shadow(0 0 15px var(--morado));">
-                <h1 style="color:var(--morado-claro); margin-bottom:15px;">${p.titulo}</h1>
-                <p style="margin-bottom:25px; color:#ddd;">${p.desc}</p>
+                <img src="${p.img}" style="width:130px; margin-bottom:20px; filter: drop-shadow(0 0 15px var(--morado));">
+                <h1 style="color:var(--morado-claro);">${p.titulo}</h1>
+                <p style="margin:20px 0; color:#ddd;">${p.desc}</p>
                 <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:15px; text-align:left; margin-bottom:25px; border:1px solid rgba(255,255,255,0.05);">
-                    <p style="margin-bottom:10px;"><i class='bx bx-check-circle' style="color:var(--morado-claro)"></i> Máximo Rendimiento FPS</p>
-                    <p style="margin-bottom:10px;"><i class='bx bx-check-circle' style="color:var(--morado-claro)"></i> Latencia Reducida</p>
-                    <p><i class='bx bx-check-circle' style="color:var(--morado-claro)"></i> Estética Dark Premium</p>
+                    <p style="margin-bottom:8px;"><i class='bx bx-check-circle' style="color:var(--morado-claro)"></i> El pack más ligero de la historia.</p>
+                    <p style="margin-bottom:8px;"><i class='bx bx-check-circle' style="color:var(--morado-claro)"></i> Optimizado para gama baja.</p>
+                    <p><i class='bx bx-check-circle' style="color:var(--morado-claro)"></i> UI Dark Premium.</p>
                 </div>
                 <button onclick="abrirAviso('${p.enlace}')" class="btn-download">Descargar Ahora</button>
             </div>
@@ -130,4 +112,4 @@ function initApp() {
     }
 }
 document.addEventListener("DOMContentLoaded", initApp);
-            
+    

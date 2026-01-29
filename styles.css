@@ -9,7 +9,6 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-/* BLOQUEO DE ZOOM */
 html, body { 
     touch-action: manipulation; 
     overflow-x: hidden;
@@ -22,7 +21,6 @@ body {
     background: #000;
 }
 
-/* FONDO FIJO SIN BUGS */
 .bg-fixed {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: -1;
@@ -37,7 +35,6 @@ body {
     display: flex; flex-direction: column; align-items: center;
 }
 
-/* NAVBAR GLASS DARK */
 .top-navbar {
     position: fixed; top: 0; left: 0; width: 100%; height: 90px;
     background: var(--navbar-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -62,9 +59,9 @@ body {
     background: var(--morado); border-radius: 12px;
     z-index: 1; transition: var(--transition);
     box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+    opacity: 0; /* Empieza invisible para evitar el bug del Home */
 }
 
-/* GLASS CARDS */
 .glass {
     background: var(--glass-bg); backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border); border-radius: 24px;
@@ -74,7 +71,6 @@ body {
 .noticia-card {
     background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 1.5rem; border-radius: 20px; width: 100%; margin-bottom: 1.5rem;
-    transition: var(--transition);
 }
 
 .fecha-bottom {
@@ -91,7 +87,6 @@ body {
 
 .btn-download.disabled { background: #222; color: #555; cursor: not-allowed; }
 
-/* LOADER */
 #loader-wrapper {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999;

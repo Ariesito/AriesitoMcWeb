@@ -2,36 +2,49 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AriesitoMc | Inicio</title>
+    <meta name="description" content="Web Oficial de AriesitoMc - Minecraft, Proyectos y Comunidad">
+    <link rel="icon" href="https://i.postimg.cc/25tg6zFM/custom-ava.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="loader-wrapper"><div class="loader-circle"></div></div>
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" class="loader-logo">
+            <div class="loader-bar"><div class="loader-progress"></div></div>
+        </div>
+    </div>
+
+    <div class="bg-fixed"></div>
 
     <nav class="top-navbar">
         <div class="navbar-links">
             <a href="index.html" class="navbar-link active"><i class='bx bxs-home'></i><span>Inicio</span></a>
             <a href="proyectos.html" class="navbar-link"><i class='bx bxs-folder-open'></i><span>Proyectos</span></a>
-            <a href="redes.html" class="navbar-link"><i class='bx bxs-share-alt'></i><span>Redes</span></a>
+            <a href="redes.html" class="navbar-link"><i class='bx bxs-planet'></i><span>Redes</span></a>
             <span class="indicator"></span>
         </div>
     </nav>
     
     <div id="main">
-        <div class="logo-container" style="text-align:center; margin-bottom: 20px;">
-            <img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" alt="Logo" style="width: 120px; filter: drop-shadow(0 0 15px var(--morado));">
+        <div class="glass reveal" style="text-align:center; padding: 2rem;">
+            <img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" style="width: 130px; filter: drop-shadow(0 0 25px var(--morado)); margin-bottom:15px;">
+            <h1 style="font-family:'Montserrat'; letter-spacing: 2px; font-size:1.8rem;">ARIESITOMC</h1> 
+            <p style="color:#aaa; margin-top:10px; font-size:0.9rem;">Creador de Contenido & Developer</p>
         </div>
-        <header class="glass">
-            <h1 style="font-family:'Montserrat', sans-serif; text-align:center; letter-spacing: 2px;">𝐀𝐫𝐢𝐞𝐬𝐢𝐭𝐨𝐌𝐜</h1> 
-        </header>
-        <section class="glass">
-            <h2 style="text-align: center; margin-bottom: 2rem; font-family:'Montserrat';">NOTICIAS</h2>
+        
+        <section class="glass reveal home-spacer">
+            <h2 style="text-align: center; margin-bottom: 2rem; font-family:'Montserrat'; letter-spacing:1px; display:flex; justify-content:center; align-items:center; gap:10px;">
+                <i class='bx bx-news' style="color:var(--morado);"></i> NOVEDADES
+            </h2>
             <div id="noticias-grid"></div>
         </section>
     </div>
     <script src="main.js"></script>
 </body>
-</html>
+    </html>
+    

@@ -7,7 +7,7 @@ const appData = {
     ],
     proyectos: [
         { id: "survival", titulo: "Survival Ariesito", desc: "El servidor técnico definitivo.", img: "https://i.postimg.cc/25tg6zFM/custom-ava.png", link: "#", btn: "Próximamente", disabled: true },
-        { id: "obsidian", titulo: "Obsidian Optimizador", desc: "Máximos FPS e Input Lag mínimo.", img: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png", link: "obsidian.html", enlace: "https://link-target.net/1356996/zMa3fwoanGAK", btn: "Ficha Técnica", disabled: false }
+        { id: "obsidian", titulo: "Obsidian Optimizador", desc: "Boost de FPS y reducción de Input Lag.", img: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png", link: "obsidian.html", enlace: "https://link-target.net/1356996/zMa3fwoanGAK", btn: "Ficha Técnica", disabled: false }
     ],
     redes: [
         { nombre: "YouTube", desc: "Tutoriales y Optimización.", url: "https://www.youtube.com/@soyariesitomc", icono: "bxl-youtube", color: "#ff0000" },
@@ -17,7 +17,7 @@ const appData = {
     ]
 };
 
-// 1. GESTIÓN DE NAVBAR (FIX INDICATOR)
+// 1. GESTIÓN DE NAVBAR (FIX INDICATOR - Punto 2)
 function updateNavbar() {
     const path = window.location.pathname;
     const page = path.split("/").pop() || "index.html";
@@ -28,20 +28,22 @@ function updateNavbar() {
         const href = link.getAttribute('href');
         if (href === page) {
             link.classList.add('active');
-            if (indicator) {
+            // Timeout para asegurar que el DOM calculó bien la posición
+            setTimeout(() => {
                 indicator.style.left = `${link.offsetLeft}px`;
-            }
+                indicator.style.width = `${link.offsetWidth}px`;
+                indicator.style.opacity = "1";
+            }, 50);
         } else {
             link.classList.remove('active');
         }
     });
 }
 
-// 2. RENDERIZADO
+// 2. RENDERIZADO GENERAL
 function init() {
     updateNavbar();
     
-    // Noticias
     const newsGrid = document.getElementById('noticias-grid');
     if (newsGrid) {
         newsGrid.innerHTML = appData.noticias.map(n => `
@@ -53,7 +55,6 @@ function init() {
         `).join('');
     }
 
-    // Proyectos
     const projGrid = document.getElementById('proyectos-grid');
     if (projGrid) {
         projGrid.innerHTML = appData.proyectos.map(p => `
@@ -66,7 +67,6 @@ function init() {
         `).join('');
     }
 
-    // Redes
     const redesCont = document.getElementById('redes-container');
     if (redesCont) {
         redesCont.innerHTML = appData.redes.map(r => `
@@ -80,19 +80,23 @@ function init() {
         `).join('');
     }
 
-    // Obsidian
     const det = document.getElementById('detalle-container');
     if (det) {
         const p = appData.proyectos.find(x => x.id === "obsidian");
+        // CARACTERÍSTICAS AMPLIADAS (Punto 3)
         det.innerHTML = `
             <div class="glass" style="text-align:center;">
                 <img src="${p.img}" style="width:120px; filter:drop-shadow(0 0 15px var(--morado));">
                 <h1 style="margin:20px 0;">${p.titulo}</h1>
-                <div style="text-align:left; background:rgba(255,255,255,0.03); padding:20px; border-radius:15px; border:1px solid rgba(255,255,255,0.05);">
-                    <p style="margin-bottom:8px;"><i class='bx bx-check-circle'></i> Optimización de motor gráfico</p>
-                    <p style="margin-bottom:8px;"><i class='bx bx-check-circle'></i> Reducción de Latencia de Red</p>
-                    <p style="margin-bottom:8px;"><i class='bx bx-check-circle'></i> Interfaz Dark Premium</p>
-                    <p><i class='bx bx-check-circle'></i> Herramientas de configuración rápida</p>
+                <div style="text-align:left; background:rgba(255,255,255,0.03); padding:20px; border-radius:15px; border:1px solid rgba(255,255,255,0.05); display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <p><i class='bx bx-bolt-circle' style="color:var(--morado-claro)"></i> Boost de FPS+</p>
+                    <p><i class='bx bx-target-lock' style="color:var(--morado-claro)"></i> Zero Input Lag</p>
+                    <p><i class='bx bx-cloud-lightrain' style="color:var(--morado-claro)"></i> Sin Partículas</p>
+                    <p><i class='bx bx-moon' style="color:var(--morado-claro)"></i> Cielo Galáctico</p>
+                    <p><i class='bx bx-chip' style="color:var(--morado-claro)"></i> RAM Optimizada</p>
+                    <p><i class='bx bx-shield-quarter' style="color:var(--morado-claro)"></i> Antilag System</p>
+                    <p><i class='bx bx-unite' style="color:var(--morado-claro)"></i> UI Minimalista</p>
+                    <p><i class='bx bx-code-alt' style="color:var(--morado-claro)"></i> Scripts Limpios</p>
                 </div>
                 <button onclick="abrirAviso('${p.enlace}')" class="btn-download" style="margin-top:20px;">DESCARGAR AHORA</button>
             </div>
@@ -100,22 +104,37 @@ function init() {
     }
 }
 
-// 3. LOADER
-window.addEventListener('load', () => {
+// 3. CONTROL DE ANIMACIÓN DE CARGA (Punto 5)
+function handleLoader() {
     const loader = document.getElementById('loader-wrapper');
-    if (loader) {
+    if (!loader) return;
+
+    // Si es una navegación interna (SPA-like) o ya cargó recientemente, ocultar rápido
+    if (sessionStorage.getItem('visited')) {
+        loader.style.display = 'none';
+    } else {
+        // Primera vez abriendo el navegador o link externo
         setTimeout(() => {
             loader.style.opacity = '0';
-            setTimeout(() => loader.style.display = 'none', 600);
+            setTimeout(() => {
+                loader.style.display = 'none';
+                sessionStorage.setItem('visited', 'true');
+            }, 600);
         }, 1500);
     }
+}
+
+// Reset del visited al cerrar pestaña para que aparezca la animación si vuelve a entrar de cero
+window.addEventListener('beforeunload', () => {
+    // Solo si quieres que se resetee al cerrar. Si quieres que nunca más aparezca, quita esto.
 });
 
-// MODAL
+window.addEventListener('load', handleLoader);
+
 let pendingUrl = "";
 function abrirAviso(url) { pendingUrl = url; document.getElementById('modal-aviso').classList.add('active'); }
 function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('active'); }
 function continuarDescarga() { if (pendingUrl) window.open(pendingUrl, '_blank'); cerrarAviso(); }
 
 document.addEventListener("DOMContentLoaded", init);
-            
+        

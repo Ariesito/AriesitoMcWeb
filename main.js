@@ -1,5 +1,5 @@
 const appData = {
-    // 1. CAMBIO DE NOTICIAS
+    // NOTICIAS ACTUALIZADAS (Eliminada la #4)
     noticias: [
         { 
             titulo: "Reorganización Estratégica", 
@@ -18,12 +18,6 @@ const appData = {
             contenido: "Todos los proyectos programados para Febrero extienden su fecha de lanzamiento hasta Marzo. Priorizamos estabilidad sobre velocidad.", 
             fecha: "11 FEBRERO 2026", 
             icono: "bx-calendar-exclamation" 
-        },
-        { 
-            titulo: "Saturnite Studios", 
-            contenido: "Nace nuestra división de ingeniería. Un equipo especializado en Infraestructura y QA.", 
-            fecha: "29 ENERO 2026", 
-            icono: "bx-rocket" 
         }
     ],
     proyectos: [
@@ -38,40 +32,53 @@ const appData = {
     ]
 };
 
-// 2. FIX DE NAVBAR (SOLICITUD #2)
+// NAVBAR LOGIC REESCRITA (ENGINEERING FIX)
 function updateNavbar() {
-    // Detectar ruta actual
+    // 1. Obtener la página actual de forma segura
     const path = window.location.pathname;
     let page = path.split("/").pop();
+    if (page === "" || page === "ariesito.netlify.app") page = "index.html";
 
-    // Caso: Si la url es solo "/", equivale a index.html
-    if (page === "" || page === "ariesito.netlify.app") {
-        page = "index.html";
-    }
+    // 2. Elementos del DOM
+    const links = document.querySelectorAll('.nav-link');
+    const indicator = document.querySelector('.nav-indicator');
+    const navList = document.querySelector('.nav-list');
 
-    const links = document.querySelectorAll('.navbar-link');
-    const indicator = document.querySelector('.indicator');
+    if (!indicator || !navList) return;
 
-    if (!indicator) return;
-
+    // 3. Encontrar el link activo
+    let activeLink = null;
     links.forEach(link => {
-        const href = link.getAttribute('href');
-        
-        // Comparación estricta para evitar que "redes.html" active "index.html"
-        if (href === page) {
-            link.classList.add('active'); // Clase para el efecto blanco/grande
-            indicator.style.left = `${link.offsetLeft}px`;
-            indicator.style.width = `${link.offsetWidth}px`;
+        if (link.getAttribute('href') === page) {
+            activeLink = link;
+            link.classList.add('active');
         } else {
             link.classList.remove('active');
         }
     });
+
+    // 4. Mover el indicador (Cálculo Relativo Preciso)
+    if (activeLink) {
+        // Obtenemos las coordenadas del link y del contenedor padre
+        const linkRect = activeLink.getBoundingClientRect();
+        const navRect = navList.getBoundingClientRect();
+
+        // Calculamos la posición relativa (left) y el ancho
+        const leftPosition = linkRect.left - navRect.left;
+        const width = linkRect.width;
+
+        indicator.style.width = `${width}px`;
+        indicator.style.transform = `translateX(${leftPosition}px)`; // Usamos transform para mejor rendimiento
+        indicator.style.left = "0"; // Reset del left base
+    }
 }
 
-// 3. RENDERIZADO
+// RENDERIZADO
 function init() {
+    // Ejecutar Navbar y añadir listener por si cambia el tamaño de pantalla
     updateNavbar();
-    
+    window.addEventListener('resize', updateNavbar);
+
     // Noticias
     const newsGrid = document.getElementById('noticias-grid');
     if (newsGrid) {
@@ -123,7 +130,6 @@ function init() {
                 <img src="${p.img}" style="width:120px; filter:drop-shadow(0 0 15px var(--morado));">
                 <h1 style="margin:20px 0; font-family:'Montserrat';">OBSIDIAN OPTIMIZADOR</h1>
                 <p style="color:#888; margin-bottom:25px;">Desarrollado por Saturnite Studios</p>
-                
                 <div style="text-align:left; background:rgba(255,255,255,0.03); padding:20px; border-radius:15px; border:1px solid rgba(255,255,255,0.05); display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                     <p><i class='bx bx-bolt-circle' style="color:var(--morado-claro)"></i> +200% FPS Boost</p>
                     <p><i class='bx bx-target-lock' style="color:var(--morado-claro)"></i> Input Lag 0ms</p>
@@ -132,7 +138,6 @@ function init() {
                     <p><i class='bx bx-shield-quarter' style="color:var(--morado-claro)"></i> Antilag System</p>
                     <p><i class='bx bx-moon' style="color:var(--morado-claro)"></i> Custom Sky</p>
                 </div>
-                
                 <button onclick="abrirAviso('${p.enlace}')" class="btn-download" style="margin-top:30px;">DESCARGAR AHORA</button>
             </div>
         `;
@@ -159,8 +164,9 @@ function handleLoader() {
 window.addEventListener('load', handleLoader);
 document.addEventListener("DOMContentLoaded", init);
 
-// Modal Logic
+// Modal
 let pendingUrl = "";
 function abrirAviso(url) { pendingUrl = url; document.getElementById('modal-aviso').classList.add('active'); }
 function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('active'); }
 function continuarDescarga() { if (pendingUrl) window.open(pendingUrl, '_blank'); cerrarAviso(); }
+    

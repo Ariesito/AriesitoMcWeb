@@ -1,31 +1,54 @@
 const appData = {
+    // 1. CAMBIO DE NOTICIAS
     noticias: [
         { 
-            titulo: "Una Nueva Era: Saturnite Studios", 
-            contenido: "Hoy nace Saturnite Studios. Un equipo especializado en Infraestructura, QA y Diseño para llevar mis proyectos al siguiente nivel de excelencia técnica. El futuro es Saturnite.", 
+            titulo: "Reorganización Estratégica", 
+            contenido: "El equipo de Saturnite Studios se está reestructurando para garantizar la máxima calidad. Estamos trabajando día y noche para tener los proyectos listos lo más pronto posible.", 
+            fecha: "11 FEBRERO 2026", 
+            icono: "bx-briefcase-alt-2" 
+        },
+        { 
+            titulo: "Suspensión de Servidor", 
+            contenido: "El servidor Survival queda suspendido temporalmente hasta Marzo para implementar mejoras críticas en el núcleo.", 
+            fecha: "11 FEBRERO 2026", 
+            icono: "bx-server" 
+        },
+        { 
+            titulo: "Actualización de Fechas", 
+            contenido: "Todos los proyectos programados para Febrero extienden su fecha de lanzamiento hasta Marzo. Priorizamos estabilidad sobre velocidad.", 
+            fecha: "11 FEBRERO 2026", 
+            icono: "bx-calendar-exclamation" 
+        },
+        { 
+            titulo: "Saturnite Studios", 
+            contenido: "Nace nuestra división de ingeniería. Un equipo especializado en Infraestructura y QA.", 
             fecha: "29 ENERO 2026", 
             icono: "bx-rocket" 
-        },
-        { titulo: "Survival Comunitario", contenido: "AriesitoMc abrirá un servidor Survival para toda la comunidad a mediados de febrero. ¡Prepárate para la aventura técnica!", fecha: "27 ENERO 2026", icono: "bx-server" },
-        { titulo: "Optimización Desplegada", contenido: "Hemos implementado el sistema Glass Dark Premium y corregido los errores de visualización en dispositivos móviles.", fecha: "27 ENERO 2026", icono: "bx-paint" },
-        { titulo: "Aviso de Inactividad", contenido: "Estaré ausente por tiempo indefinido debido a problemas con mi dispositivo móvil. Gracias por su lealtad y paciencia.", fecha: "20 ENERO 2026", icono: "bx-mobile-vibration" }
+        }
     ],
     proyectos: [
-        { id: "survival", titulo: "Survival Ariesito", desc: "El servidor técnico definitivo.", img: "https://i.postimg.cc/25tg6zFM/custom-ava.png", link: "#", btn: "Próximamente", disabled: true },
+        { id: "survival", titulo: "Survival Ariesito", desc: "El servidor técnico definitivo.", img: "https://i.postimg.cc/25tg6zFM/custom-ava.png", link: "#", btn: "Marzo 2026", disabled: true },
         { id: "obsidian", titulo: "Obsidian Optimizador", desc: "Boost de FPS y reducción de Input Lag.", img: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png", link: "obsidian.html", enlace: "https://link-target.net/1356996/zMa3fwoanGAK", btn: "Ver Detalles", disabled: false }
     ],
     redes: [
         { nombre: "YouTube", desc: "Tutoriales y Optimización.", url: "https://www.youtube.com/@soyariesitomc", icono: "bxl-youtube", color: "#ff0000" },
         { nombre: "TikTok", desc: "Clips y noticias rápidas.", url: "https://www.tiktok.com/@soyariesitomc", icono: "bxl-tiktok", color: "#fff" },
-        { nombre: "WhatsApp", desc: "Canal de anuncios directos.", url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", icono: "bxl-whatsapp", color: "#25D366" },
+        { nombre: "WhatsApp", desc: "Canal de anuncios.", url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", icono: "bxl-whatsapp", color: "#25D366" },
         { nombre: "Discord", desc: "La casa de la comunidad.", url: "https://discord.gg/DgrckyxNMr", icono: "bxl-discord-alt", color: "#5865F2" }
     ]
 };
 
-// 1. INDICADOR NAVBAR (PUNTO 1 FIX)
+// 2. FIX DE NAVBAR (SOLICITUD #2)
 function updateNavbar() {
+    // Detectar ruta actual
     const path = window.location.pathname;
-    const page = path.split("/").pop() || "index.html";
+    let page = path.split("/").pop();
+
+    // Caso: Si la url es solo "/", equivale a index.html
+    if (page === "" || page === "ariesito.netlify.app") {
+        page = "index.html";
+    }
+
     const links = document.querySelectorAll('.navbar-link');
     const indicator = document.querySelector('.indicator');
 
@@ -33,8 +56,10 @@ function updateNavbar() {
 
     links.forEach(link => {
         const href = link.getAttribute('href');
+        
+        // Comparación estricta para evitar que "redes.html" active "index.html"
         if (href === page) {
-            link.classList.add('active');
+            link.classList.add('active'); // Clase para el efecto blanco/grande
             indicator.style.left = `${link.offsetLeft}px`;
             indicator.style.width = `${link.offsetWidth}px`;
         } else {
@@ -43,7 +68,7 @@ function updateNavbar() {
     });
 }
 
-// 2. RENDERIZADO
+// 3. RENDERIZADO
 function init() {
     updateNavbar();
     
@@ -52,8 +77,10 @@ function init() {
     if (newsGrid) {
         newsGrid.innerHTML = appData.noticias.map(n => `
             <div class="noticia-card">
-                <h3 style="display:flex; align-items:center; gap:10px;"><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
-                <p style="margin-top:10px; color:#aaa; font-size:0.9rem; line-height:1.4;">${n.contenido}</p>
+                <div>
+                    <h3 style="display:flex; align-items:center; gap:10px;"><i class='bx ${n.icono}' style="color:var(--morado-claro)"></i> ${n.titulo}</h3>
+                    <p style="margin-top:10px; color:#bbb; font-size:0.9rem; line-height:1.5;">${n.contenido}</p>
+                </div>
                 <span class="fecha-bottom">${n.fecha}</span>
             </div>
         `).join('');
@@ -63,11 +90,11 @@ function init() {
     const projGrid = document.getElementById('proyectos-grid');
     if (projGrid) {
         projGrid.innerHTML = appData.proyectos.map(p => `
-            <div class="noticia-card" style="text-align:center;">
-                <img src="${p.img}" style="width:80px; margin-bottom:15px;">
+            <div class="noticia-card" style="text-align:center; align-items: center;">
+                <img src="${p.img}" style="width:90px; margin-bottom:15px; border-radius:10px;">
                 <h3>${p.titulo}</h3>
                 <p style="margin:10px 0; color:#aaa; font-size:0.85rem;">${p.desc}</p>
-                ${p.disabled ? `<button class="btn-download" style="background:#222; color:#555;">${p.btn}</button>` : `<a href="${p.link}" class="btn-download">${p.btn}</a>`}
+                ${p.disabled ? `<button class="btn-download" style="background:#222; color:#555; cursor:not-allowed;">${p.btn}</button>` : `<a href="${p.link}" class="btn-download">${p.btn}</a>`}
             </div>
         `).join('');
     }
@@ -76,17 +103,18 @@ function init() {
     const redesCont = document.getElementById('redes-container');
     if (redesCont) {
         redesCont.innerHTML = appData.redes.map(r => `
-            <div class="noticia-card" onclick="window.location.href='${r.url}'" style="cursor:pointer; display:flex; align-items:center; gap:20px;">
-                <i class='bx ${r.icono}' style="font-size:2rem; color:${r.color}"></i>
+            <div class="noticia-card" onclick="window.location.href='${r.url}'" style="cursor:pointer; flex-direction:row; align-items:center; gap:20px;">
+                <i class='bx ${r.icono}' style="font-size:2.5rem; color:${r.color}"></i>
                 <div>
-                    <h3 style="margin:0;">${r.nombre}</h3>
+                    <h3 style="margin:0; font-size:1.1rem;">${r.nombre}</h3>
                     <p style="margin:0; font-size:0.8rem; color:#888;">${r.desc}</p>
                 </div>
+                <i class='bx bx-chevron-right' style="margin-left:auto; font-size:1.5rem; color:#444;"></i>
             </div>
         `).join('');
     }
 
-    // Obsidian Detalle (PUNTO 3 CARACTERÍSTICAS)
+    // Obsidian Detalle
     const det = document.getElementById('detalle-container');
     if (det) {
         const p = appData.proyectos.find(x => x.id === "obsidian");
@@ -103,8 +131,6 @@ function init() {
                     <p><i class='bx bx-wifi' style="color:var(--morado-claro)"></i> Network Fix</p>
                     <p><i class='bx bx-shield-quarter' style="color:var(--morado-claro)"></i> Antilag System</p>
                     <p><i class='bx bx-moon' style="color:var(--morado-claro)"></i> Custom Sky</p>
-                    <p><i class='bx bx-check-double' style="color:var(--morado-claro)"></i> QA Verified</p>
-                    <p><i class='bx bx-code-block' style="color:var(--morado-claro)"></i> No Particles</p>
                 </div>
                 
                 <button onclick="abrirAviso('${p.enlace}')" class="btn-download" style="margin-top:30px;">DESCARGAR AHORA</button>
@@ -113,7 +139,7 @@ function init() {
     }
 }
 
-// 3. LOADER INTELIGENTE
+// Loader
 function handleLoader() {
     const loader = document.getElementById('loader-wrapper');
     if (!loader) return;
@@ -133,7 +159,7 @@ function handleLoader() {
 window.addEventListener('load', handleLoader);
 document.addEventListener("DOMContentLoaded", init);
 
-// MODAL
+// Modal Logic
 let pendingUrl = "";
 function abrirAviso(url) { pendingUrl = url; document.getElementById('modal-aviso').classList.add('active'); }
 function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('active'); }

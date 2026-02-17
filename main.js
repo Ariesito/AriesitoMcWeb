@@ -1,158 +1,101 @@
-/**
- * AriesitoMc Web Engine v2.5
- * Gestión dinámica de contenido y plantillas
- */
-
 let appData = {};
+let currentLang = localStorage.getItem('lang') || 'es';
 
-async function fetchData() {
+async function init() {
     try {
         const response = await fetch('./data.json');
-        if (!response.ok) throw new Error('No se pudo cargar el JSON');
         appData = await response.json();
         renderAll();
-    } catch (error) {
-        console.error("Error crítico de datos:", error);
-    }
+    } catch (e) { console.error("Error cargando base de datos"); }
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    renderAll();
 }
 
 function renderAll() {
-    // 1. Renderizar Noticias (Index)
+    const isEn = currentLang === 'en';
+
+    // 1. SEO Dinámico (Título y Meta)
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
+    
+    // 2. Renderizar Filtros (Solo en proyectos.html)
+    const filterContainer = document.getElementById('filter-bar');
+    if (filterContainer && appData.config.filtros_config) {
+        filterContainer.innerHTML = appData.config.filtros_config
+            .filter(f => f.enabled)
+            .map(f => `
+                <button class="filter-btn" onclick="filterProjects('${f.id}')">
+                    ${isEn ? f.label_en : f.label_es}
+                </button>
+            `).join('');
+    }
+
+    // 3. Renderizar Noticias (index.html)
     const newsGrid = document.getElementById('noticias-grid');
-    if (newsGrid && appData.noticias) {
+    if (newsGrid) {
         newsGrid.innerHTML = appData.noticias.map(n => `
             <div class="noticia-card">
-                <div>
-                    <h3 style="display:flex; align-items:center; gap:10px;">
-                        <i class='bx ${n.icono}' style="color:var(--morado-claro)"></i> ${n.titulo}
-                    </h3>
-                    <p style="margin-top:10px; color:#bbb; font-size:0.9rem;">${n.contenido}</p>
-                </div>
+                <h3><i class='bx ${n.icono}'></i> ${isEn ? n.titulo_en : n.titulo_es}</h3>
+                <p>${isEn ? n.contenido_en : n.contenido_es}</p>
                 <span class="fecha-bottom">${n.fecha}</span>
             </div>
         `).join('');
     }
 
-    // 2. Renderizar Proyectos (Lista en proyectos.html)
-    const projGrid = document.getElementById('proyectos-grid');
-    if (projGrid && appData.proyectos) {
-        projGrid.innerHTML = appData.proyectos.map(p => `
-            <div class="noticia-card" style="text-align:center; align-items:center;">
-                <img src="${p.img}" style="width:90px; margin-bottom:15px; border-radius:10px;">
-                <h3>${p.titulo}</h3>
-                <p style="margin:10px 0; color:#aaa; font-size:0.85rem;">${p.desc}</p>
-                <a href="${p.link}" class="btn-download" style="${p.disabled ? 'background:#222; color:#555; pointer-events:none;' : ''}">
-                    ${p.btn}
-                </a>
-            </div>
-        `).join('');
-    }
+    // 4. Renderizar Lista de Proyectos (proyectos.html)
+    renderProjectsList('todos');
 
-    // 3. Renderizar Redes (redes.html)
-    const redesCont = document.getElementById('redes-container');
-    if (redesCont && appData.redes) {
-        redesCont.innerHTML = appData.redes.map(r => `
-            <div class="noticia-card" onclick="window.location.href='${r.url}'" style="cursor:pointer; flex-direction:row; align-items:center; gap:20px;">
-                <i class='bx ${r.icono}' style="font-size:2.5rem; color:${r.color}"></i>
-                <div>
-                    <h3 style="margin:0; font-size:1.1rem;">${r.nombre}</h3>
-                    <p style="margin:0; font-size:0.8rem; color:#888;">${r.desc}</p>
-                </div>
-                <i class='bx bx-chevron-right' style="margin-left:auto; font-size:1.5rem; color:#444;"></i>
-            </div>
-        `).join('');
-    }
-
-    // 4. Lógica de Página de Detalle Dinámica (proyecto.html?id=xxx)
-    const dynamicContainer = document.getElementById('detalle-dinamico');
-    if (dynamicContainer) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const projectId = urlParams.get('id');
-        const p = appData.proyectos.find(item => item.id === projectId);
-
+    // 5. Renderizar Detalle Dinámico (proyecto.html)
+    const detCont = document.getElementById('detalle-dinamico');
+    if (detCont && projectId) {
+        const p = appData.proyectos.find(x => x.id === projectId);
         if (p) {
-            document.title = `${p.titulo} | Saturnite Studios`;
-            dynamicContainer.innerHTML = `
-                <div class="glass" style="text-align:center; margin-top:40px;">
-                    <img src="${p.img}" style="width:120px; filter:drop-shadow(0 0 15px var(--morado));">
-                    <h1 style="margin:20px 0; font-family:'Montserrat'; text-transform:uppercase;">${p.titulo}</h1>
-                    <p style="color:#888; margin-bottom:25px;">${p.subtitulo || ''}</p>
-                    
+            document.title = `${p.id.toUpperCase()} | Saturnite`;
+            detCont.innerHTML = `
+                <div class="glass text-center">
+                    <img src="${p.img}" style="width:120px; border-radius:20px;">
+                    <h1 class="main-title">${isEn ? p.titulo_en : p.titulo_es}</h1>
                     <div class="specs-grid">
-                        ${(p.specs || []).map(s => `
-                            <p><i class='bx ${s.icon}' style="color:var(--morado-claro)"></i> ${s.text}</p>
-                        `).join('')}
+                        ${p.specs.map(s => `<p><i class='bx ${s.icon}'></i> ${isEn ? s.text_en : s.text_es}</p>`).join('')}
                     </div>
-
-                    ${p.disabled ? 
-                        `<button class="btn-download" style="background:#222; color:#555; cursor:not-allowed; margin-top:30px;">PRÓXIMAMENTE</button>` : 
-                        `<button onclick="abrirAviso('${p.enlace_descarga || p.enlace}')" class="btn-download" style="margin-top:30px;">DESCARGAR AHORA</button>`
-                    }
+                    <button onclick="abrirAviso('${p.enlace_descarga}')" class="btn-download" ${p.disabled ? 'disabled style="background:#222"' : ''}>
+                        ${isEn ? p.btn_en : p.btn_es}
+                    </button>
                 </div>
             `;
-        } else {
-            dynamicContainer.innerHTML = `<div class="glass"><h2>Proyecto no encontrado</h2><br><a href="proyectos.html" class="btn-download">Volver</a></div>`;
         }
     }
 }
 
-// --- Funciones de Utilidad (Loader, Navbar, Modal) ---
+function renderProjectsList(filter) {
+    const projGrid = document.getElementById('proyectos-grid');
+    if (!projGrid) return;
+    const isEn = currentLang === 'en';
+    
+    const filtered = filter === 'todos' ? appData.proyectos : appData.proyectos.filter(p => p.categoria === filter);
 
-function handleLoader() {
-    const loader = document.getElementById('loader-wrapper');
-    if (!loader) return;
-    if (sessionStorage.getItem('visited')) {
-        loader.style.display = 'none';
-    } else {
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                sessionStorage.setItem('visited', 'true');
-            }, 600);
-        }, 1200);
-    }
+    projGrid.innerHTML = filtered.map(p => `
+        <div class="noticia-card text-center">
+            <img src="${p.img}" style="width:80px; margin-bottom:15px;">
+            <h3>${isEn ? p.titulo_en : p.titulo_es}</h3>
+            <p>${isEn ? p.desc_en : p.desc_es}</p>
+            <a href="proyecto.html?id=${p.id}" class="btn-download" style="margin-top:15px; display:inline-block;">
+                ${isEn ? 'Details' : 'Detalles'}
+            </a>
+        </div>
+    `).join('');
 }
 
-function updateNavbar() {
-    const path = window.location.pathname;
-    let page = path.split("/").pop() || "index.html";
-    const links = document.querySelectorAll('.nav-link');
-    const indicator = document.querySelector('.nav-indicator');
-    const navList = document.querySelector('.nav-list');
+function filterProjects(cat) { renderProjectsList(cat); }
 
-    let activeLink = null;
-    links.forEach(link => {
-        if (link.getAttribute('href') === page) {
-            link.classList.add('active');
-            activeLink = link;
-        } else {
-            link.classList.remove('active');
-        }
-    });
-
-    if (activeLink && indicator && navList) {
-        const linkRect = activeLink.getBoundingClientRect();
-        const navRect = navList.getBoundingClientRect();
-        indicator.style.width = `${linkRect.width}px`;
-        indicator.style.transform = `translateX(${linkRect.left - navRect.left}px)`;
-    }
-}
-
-// Modal
+// Lógica de Modal y Loader (Se mantiene simplificada)
 let pendingUrl = "";
-function abrirAviso(url) { 
-    if(!url || url === "#") return;
-    pendingUrl = url; 
-    document.getElementById('modal-aviso').classList.add('active'); 
-}
+function abrirAviso(url) { if(url==="#") return; pendingUrl = url; document.getElementById('modal-aviso').classList.add('active'); }
 function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('active'); }
-function continuarDescarga() { if (pendingUrl) window.open(pendingUrl, '_blank'); cerrarAviso(); }
+function continuarDescarga() { window.open(pendingUrl, '_blank'); cerrarAviso(); }
 
-// Init
-window.addEventListener('load', handleLoader);
-window.addEventListener('resize', updateNavbar);
-document.addEventListener("DOMContentLoaded", () => {
-    fetchData();
-    updateNavbar();
-});
+document.addEventListener("DOMContentLoaded", init);

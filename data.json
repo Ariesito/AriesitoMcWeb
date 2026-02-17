@@ -1,19 +1,42 @@
 {
   "config": {
-    "idioma_default": "es",
-    "filtros_config": [
-      { "id": "todos", "label_es": "Todos", "label_en": "All", "enabled": true },
-      { "id": "texturas", "label_es": "Texturas", "label_en": "Textures", "enabled": true },
-      { "id": "addons", "label_es": "Addons", "label_en": "Addons", "enabled": true },
-      { "id": "extras", "label_es": "Extras", "label_en": "Extras", "enabled": true }
-    ]
+    "filtros": [
+      { "id": "todos", "es": "Todos", "en": "All", "enabled": true },
+      { "id": "texturas", "es": "Texturas", "en": "Textures", "enabled": true },
+      { "id": "addons", "es": "Addons", "en": "Addons", "enabled": true },
+      { "id": "extras", "es": "Extras", "en": "Extras", "enabled": true }
+    ],
+    "ui": {
+      "nav": {
+        "inicio": { "es": "Inicio", "en": "Home" },
+        "proyectos": { "es": "Proyectos", "en": "Projects" },
+        "redes": { "es": "Redes", "en": "Socials" }
+      },
+      "titulos": {
+        "novedades": { "es": "NOVEDADES", "en": "LATEST NEWS" },
+        "proyectos": { "es": "MIS PROYECTOS", "en": "MY PROJECTS" },
+        "redes": { "es": "CONECTA CONMIGO", "en": "CONNECT WITH ME" }
+      },
+      "perfil": {
+        "desc": {
+          "es": "Visionario Técnico & Fundador de Saturnite Studios. Transformando la experiencia de Minecraft a través de ingeniería de optimización.",
+          "en": "Technical Visionary & Founder of Saturnite Studios. Transforming the Minecraft experience through optimization engineering."
+        }
+      },
+      "modal": {
+        "titulo": { "es": "¡Atención!", "en": "Attention!" },
+        "texto": { "es": "Estás saliendo a un enlace externo para realizar la descarga.", "en": "You are leaving to an external link to proceed with the download." },
+        "continuar": { "es": "Continuar", "en": "Continue" },
+        "cancelar": { "es": "Cancelar", "en": "Cancel" }
+      }
+    }
   },
   "noticias": [
     {
-      "titulo_es": "Actualización de la Web",
+      "titulo_es": "Actualizacion de la Web",
       "titulo_en": "Web Update",
-      "contenido_es": "La Web ha sido actualizada visual e internamente.",
-      "contenido_en": "The website has been updated visually and internally.",
+      "contenido_es": "La Web ha sido actualizada Visual y Internamente para mayor facilidad de uso.",
+      "contenido_en": "The Web has been updated Visually and Internally for better ease of use.",
       "fecha": "17 FEB 2026",
       "icono": "bx-calendar-exclamation"
     }
@@ -27,13 +50,13 @@
       "desc_es": "Boost de FPS y reducción de Input Lag.",
       "desc_en": "FPS Boost and Input Lag reduction.",
       "img": "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
-      "enlace_descarga": "https://link-target.net/1356996/zMa3fwoanGAK",
+      "enlace": "https://link-target.net/1356996/zMa3fwoanGAK",
       "btn_es": "Ver Detalles",
       "btn_en": "View Details",
       "disabled": false,
       "specs": [
-        { "icon": "bx-bolt-circle", "text_es": "+200% FPS Boost", "text_en": "+200% FPS Boost" },
-        { "icon": "bx-target-lock", "text_es": "0ms Latencia", "text_en": "0ms Latency" }
+        { "icon": "bx-bolt-circle", "es": "+200% FPS Boost", "en": "+200% FPS Boost" },
+        { "icon": "bx-target-lock", "es": "Latencia 0ms", "en": "0ms Latency" }
       ]
     },
     {
@@ -41,17 +64,17 @@
       "categoria": "extras",
       "titulo_es": "Survival Ariesito",
       "titulo_en": "Ariesito Survival",
-      "desc_es": "Servidor técnico definitivo.",
+      "desc_es": "El servidor técnico definitivo.",
       "desc_en": "The ultimate technical server.",
       "img": "https://i.postimg.cc/25tg6zFM/custom-ava.png",
-      "enlace_descarga": "#",
-      "btn_es": "Próximamente",
-      "btn_en": "Coming Soon",
+      "enlace": "#",
+      "btn_es": "Marzo 2026",
+      "btn_en": "March 2026",
       "disabled": true,
       "specs": []
     }
   ],
   "redes": [
-    { "nombre": "YouTube", "url": "https://www.youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" }
+    { "nombre": "YouTube", "desc_es": "Tutoriales y Optimización.", "desc_en": "Tutorials and Optimization.", "url": "https://www.youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" }
   ]
 }

@@ -1,52 +1,32 @@
-const appData = {
-    // NOTICIAS ACTUALIZADAS (Eliminada la #4)
-    noticias: [
-        { 
-            titulo: "Reorganización Estratégica", 
-            contenido: "El equipo de Saturnite Studios se está reestructurando para garantizar la máxima calidad. Estamos trabajando día y noche para tener los proyectos listos lo más pronto posible.", 
-            fecha: "11 FEBRERO 2026", 
-            icono: "bx-briefcase-alt-2" 
-        },
-        { 
-            titulo: "Suspensión de Servidor", 
-            contenido: "El servidor Survival queda suspendido temporalmente hasta Marzo para implementar mejoras críticas en el núcleo.", 
-            fecha: "11 FEBRERO 2026", 
-            icono: "bx-server" 
-        },
-        { 
-            titulo: "Actualización de Fechas", 
-            contenido: "Todos los proyectos programados para Febrero extienden su fecha de lanzamiento hasta Marzo. Priorizamos estabilidad sobre velocidad.", 
-            fecha: "11 FEBRERO 2026", 
-            icono: "bx-calendar-exclamation" 
-        }
-    ],
-    proyectos: [
-        { id: "survival", titulo: "Survival Ariesito", desc: "El servidor técnico definitivo.", img: "https://i.postimg.cc/25tg6zFM/custom-ava.png", link: "#", btn: "Marzo 2026", disabled: true },
-        { id: "obsidian", titulo: "Obsidian Optimizador", desc: "Boost de FPS y reducción de Input Lag.", img: "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png", link: "obsidian.html", enlace: "https://link-target.net/1356996/zMa3fwoanGAK", btn: "Ver Detalles", disabled: false }
-    ],
-    redes: [
-        { nombre: "YouTube", desc: "Tutoriales y Optimización.", url: "https://www.youtube.com/@soyariesitomc", icono: "bxl-youtube", color: "#ff0000" },
-        { nombre: "TikTok", desc: "Clips y noticias rápidas.", url: "https://www.tiktok.com/@soyariesitomc", icono: "bxl-tiktok", color: "#fff" },
-        { nombre: "WhatsApp", desc: "Canal de anuncios.", url: "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", icono: "bxl-whatsapp", color: "#25D366" },
-        { nombre: "Discord", desc: "La casa de la comunidad.", url: "https://discord.gg/DgrckyxNMr", icono: "bxl-discord-alt", color: "#5865F2" }
-    ]
-};
+/**
+ * AriesitoMc Web Engine v2.0
+ * Lógica de renderizado dinámico mediante Fetch API
+ */
 
-// NAVBAR LOGIC REESCRITA (ENGINEERING FIX)
+let appData = {};
+
+async function fetchData() {
+    try {
+        const response = await fetch('./data.json');
+        if (!response.ok) throw new Error('Error al cargar base de datos');
+        appData = await response.json();
+        renderAll();
+    } catch (error) {
+        console.error("CRITICAL ERROR:", error);
+    }
+}
+
 function updateNavbar() {
-    // 1. Obtener la página actual de forma segura
     const path = window.location.pathname;
     let page = path.split("/").pop();
-    if (page === "" || page === "ariesito.netlify.app") page = "index.html";
+    if (page === "" || page === "index.html") page = "index.html";
 
-    // 2. Elementos del DOM
     const links = document.querySelectorAll('.nav-link');
     const indicator = document.querySelector('.nav-indicator');
     const navList = document.querySelector('.nav-list');
 
     if (!indicator || !navList) return;
 
-    // 3. Encontrar el link activo
     let activeLink = null;
     links.forEach(link => {
         if (link.getAttribute('href') === page) {
@@ -57,35 +37,28 @@ function updateNavbar() {
         }
     });
 
-    // 4. Mover el indicador (Cálculo Relativo Preciso)
     if (activeLink) {
-        // Obtenemos las coordenadas del link y del contenedor padre
         const linkRect = activeLink.getBoundingClientRect();
         const navRect = navList.getBoundingClientRect();
-
-        // Calculamos la posición relativa (left) y el ancho
         const leftPosition = linkRect.left - navRect.left;
         const width = linkRect.width;
 
         indicator.style.width = `${width}px`;
-        indicator.style.transform = `translateX(${leftPosition}px)`; // Usamos transform para mejor rendimiento
-        indicator.style.left = "0"; // Reset del left base
+        indicator.style.transform = `translateX(${leftPosition}px)`;
+        indicator.style.left = "0";
     }
 }
 
-// RENDERIZADO
-function init() {
-    // Ejecutar Navbar y añadir listener por si cambia el tamaño de pantalla
-    updateNavbar();
-    window.addEventListener('resize', updateNavbar);
-
-    // Noticias
+function renderAll() {
+    // Renderizado de Noticias
     const newsGrid = document.getElementById('noticias-grid');
-    if (newsGrid) {
+    if (newsGrid && appData.noticias) {
         newsGrid.innerHTML = appData.noticias.map(n => `
             <div class="noticia-card">
                 <div>
-                    <h3 style="display:flex; align-items:center; gap:10px;"><i class='bx ${n.icono}' style="color:var(--morado-claro)"></i> ${n.titulo}</h3>
+                    <h3 style="display:flex; align-items:center; gap:10px;">
+                        <i class='bx ${n.icono}' style="color:var(--morado-claro)"></i> ${n.titulo}
+                    </h3>
                     <p style="margin-top:10px; color:#bbb; font-size:0.9rem; line-height:1.5;">${n.contenido}</p>
                 </div>
                 <span class="fecha-bottom">${n.fecha}</span>
@@ -93,22 +66,24 @@ function init() {
         `).join('');
     }
 
-    // Proyectos
+    // Renderizado de Proyectos
     const projGrid = document.getElementById('proyectos-grid');
-    if (projGrid) {
+    if (projGrid && appData.proyectos) {
         projGrid.innerHTML = appData.proyectos.map(p => `
             <div class="noticia-card" style="text-align:center; align-items: center;">
                 <img src="${p.img}" style="width:90px; margin-bottom:15px; border-radius:10px;">
                 <h3>${p.titulo}</h3>
                 <p style="margin:10px 0; color:#aaa; font-size:0.85rem;">${p.desc}</p>
-                ${p.disabled ? `<button class="btn-download" style="background:#222; color:#555; cursor:not-allowed;">${p.btn}</button>` : `<a href="${p.link}" class="btn-download">${p.btn}</a>`}
+                ${p.disabled ? 
+                    `<button class="btn-download" style="background:#222; color:#555; cursor:not-allowed;">${p.btn}</button>` : 
+                    `<a href="${p.link}" class="btn-download">${p.btn}</a>`}
             </div>
         `).join('');
     }
 
-    // Redes
+    // Renderizado de Redes
     const redesCont = document.getElementById('redes-container');
-    if (redesCont) {
+    if (redesCont && appData.redes) {
         redesCont.innerHTML = appData.redes.map(r => `
             <div class="noticia-card" onclick="window.location.href='${r.url}'" style="cursor:pointer; flex-direction:row; align-items:center; gap:20px;">
                 <i class='bx ${r.icono}' style="font-size:2.5rem; color:${r.color}"></i>
@@ -121,30 +96,32 @@ function init() {
         `).join('');
     }
 
-    // Obsidian Detalle
+    // Detalle Obsidian
     const det = document.getElementById('detalle-container');
-    if (det) {
+    if (det && appData.proyectos) {
         const p = appData.proyectos.find(x => x.id === "obsidian");
-        det.innerHTML = `
-            <div class="glass" style="text-align:center; margin-top:40px;">
-                <img src="${p.img}" style="width:120px; filter:drop-shadow(0 0 15px var(--morado));">
-                <h1 style="margin:20px 0; font-family:'Montserrat';">OBSIDIAN OPTIMIZADOR</h1>
-                <p style="color:#888; margin-bottom:25px;">Desarrollado por Saturnite Studios</p>
-                <div style="text-align:left; background:rgba(255,255,255,0.03); padding:20px; border-radius:15px; border:1px solid rgba(255,255,255,0.05); display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                    <p><i class='bx bx-bolt-circle' style="color:var(--morado-claro)"></i> +200% FPS Boost</p>
-                    <p><i class='bx bx-target-lock' style="color:var(--morado-claro)"></i> Input Lag 0ms</p>
-                    <p><i class='bx bx-chip' style="color:var(--morado-claro)"></i> Smart RAM Clean</p>
-                    <p><i class='bx bx-wifi' style="color:var(--morado-claro)"></i> Network Fix</p>
-                    <p><i class='bx bx-shield-quarter' style="color:var(--morado-claro)"></i> Antilag System</p>
-                    <p><i class='bx bx-moon' style="color:var(--morado-claro)"></i> Custom Sky</p>
+        if(p) {
+            det.innerHTML = `
+                <div class="glass" style="text-align:center; margin-top:40px;">
+                    <img src="${p.img}" style="width:120px; filter:drop-shadow(0 0 15px var(--morado));">
+                    <h1 style="margin:20px 0; font-family:'Montserrat';">OBSIDIAN OPTIMIZADOR</h1>
+                    <p style="color:#888; margin-bottom:25px;">Desarrollado por Saturnite Studios</p>
+                    <div style="text-align:left; background:rgba(255,255,255,0.03); padding:20px; border-radius:15px; border:1px solid rgba(255,255,255,0.05); display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                        <p><i class='bx bx-bolt-circle' style="color:var(--morado-claro)"></i> +200% FPS Boost</p>
+                        <p><i class='bx bx-target-lock' style="color:var(--morado-claro)"></i> Input Lag 0ms</p>
+                        <p><i class='bx bx-chip' style="color:var(--morado-claro)"></i> Smart RAM Clean</p>
+                        <p><i class='bx bx-wifi' style="color:var(--morado-claro)"></i> Network Fix</p>
+                        <p><i class='bx bx-shield-quarter' style="color:var(--morado-claro)"></i> Antilag System</p>
+                        <p><i class='bx bx-moon' style="color:var(--morado-claro)"></i> Custom Sky</p>
+                    </div>
+                    <button onclick="abrirAviso('${p.enlace}')" class="btn-download" style="margin-top:30px;">DESCARGAR AHORA</button>
                 </div>
-                <button onclick="abrirAviso('${p.enlace}')" class="btn-download" style="margin-top:30px;">DESCARGAR AHORA</button>
-            </div>
-        `;
+            `;
+        }
     }
 }
 
-// Loader
+// Control del Loader
 function handleLoader() {
     const loader = document.getElementById('loader-wrapper');
     if (!loader) return;
@@ -161,12 +138,16 @@ function handleLoader() {
     }
 }
 
+// Inicialización
 window.addEventListener('load', handleLoader);
-document.addEventListener("DOMContentLoaded", init);
+window.addEventListener('resize', updateNavbar);
+document.addEventListener("DOMContentLoaded", () => {
+    fetchData(); // Carga datos y luego renderiza
+    updateNavbar();
+});
 
-// Modal
+// Modal logic
 let pendingUrl = "";
 function abrirAviso(url) { pendingUrl = url; document.getElementById('modal-aviso').classList.add('active'); }
 function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('active'); }
 function continuarDescarga() { if (pendingUrl) window.open(pendingUrl, '_blank'); cerrarAviso(); }
-    

@@ -34,7 +34,7 @@
   "noticias": [
     {
       "titulo_es": "Actualizacion de la Web", "titulo_en": "Web Update",
-      "contenido_es": "La Web ha sido actualizada Visual e Internamente.", "contenido_en": "The Web has been updated Visually and Internally.",
+      "contenido_es": "Estamos trabajando en la web por lo que puede presentar errores visuales.", "contenido_en": "The Web has been updated Visually and Internally.",
       "fecha": "17 FEB 2026", "icono": "bx-calendar-exclamation"
     }
   ],

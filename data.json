@@ -1,10 +1,10 @@
 {
   "noticias": [
     {
-      "titulo": "Reorganización Estratégica",
-      "contenido": "El equipo de Saturnite Studios se está reestructurando para garantizar la máxima calidad. Estamos trabajando día y noche para tener los proyectos listos lo más pronto posible.",
-      "fecha": "11 FEBRERO 2026",
-      "icono": "bx-briefcase-alt-2"
+      "titulo": "Actualizacion de la Web",
+      "contenido": "La Web a sido actualizada Visual y Internamente para mayor facilidad de uso tanto del usuario como de Ariesito y su equipo",
+      "fecha": "17 FEBRERO 2026",
+      "icono": "bx-exclamation"
     },
     {
       "titulo": "Suspensión de Servidor",

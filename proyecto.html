@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cargando Proyecto... | Saturnite Studios</title>
+    <link rel="icon" href="https://i.postimg.cc/25tg6zFM/custom-ava.png">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="padding-top: 20px;">
+    <div id="loader-wrapper"><img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" class="loader-logo"></div>
+    <div class="bg-fixed"></div>
+
+    <a href="proyectos.html" class="back-nav">
+        <i class='bx bx-left-arrow-alt'></i>
+    </a>
+
+    <div id="main">
+        <div id="detalle-dinamico">
+            </div>
+    </div>
+
+    <div id="modal-aviso" class="modal-overlay">
+        <div class="glass" style="max-width:400px; text-align:center; border: 1px solid var(--morado);">
+            <h2 style="color: #ff4d4d; margin-bottom: 1rem;">¡Atención!</h2>
+            <p style="margin-bottom: 20px;">Estás saliendo a un enlace externo para realizar la descarga.</p>
+            <div style="display:flex; gap:10px;">
+                <button class="btn-download" onclick="continuarDescarga()">Continuar</button>
+                <button class="btn-download" style="background:#333;" onclick="cerrarAviso()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

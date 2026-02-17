@@ -1,0 +1,49 @@
+{
+  "noticias": [
+    {
+      "titulo": "Reorganización Estratégica",
+      "contenido": "El equipo de Saturnite Studios se está reestructurando para garantizar la máxima calidad. Estamos trabajando día y noche para tener los proyectos listos lo más pronto posible.",
+      "fecha": "11 FEBRERO 2026",
+      "icono": "bx-briefcase-alt-2"
+    },
+    {
+      "titulo": "Suspensión de Servidor",
+      "contenido": "El servidor Survival queda suspendido temporalmente hasta Marzo para implementar mejoras críticas en el núcleo.",
+      "fecha": "11 FEBRERO 2026",
+      "icono": "bx-server"
+    },
+    {
+      "titulo": "Actualización de Fechas",
+      "contenido": "Todos los proyectos programados para Febrero extienden su fecha de lanzamiento hasta Marzo. Priorizamos estabilidad sobre velocidad.",
+      "fecha": "11 FEBRERO 2026",
+      "icono": "bx-calendar-exclamation"
+    }
+  ],
+  "proyectos": [
+    {
+      "id": "survival",
+      "titulo": "Survival Ariesito",
+      "desc": "El servidor técnico definitivo.",
+      "img": "https://i.postimg.cc/25tg6zFM/custom-ava.png",
+      "link": "#",
+      "btn": "Marzo 2026",
+      "disabled": true
+    },
+    {
+      "id": "obsidian",
+      "titulo": "Obsidian Optimizador",
+      "desc": "Boost de FPS y reducción de Input Lag.",
+      "img": "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
+      "link": "obsidian.html",
+      "enlace": "https://link-target.net/1356996/zMa3fwoanGAK",
+      "btn": "Ver Detalles",
+      "disabled": false
+    }
+  ],
+  "redes": [
+    { "nombre": "YouTube", "desc": "Tutoriales y Optimización.", "url": "https://www.youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" },
+    { "nombre": "TikTok", "desc": "Clips y noticias rápidas.", "url": "https://www.tiktok.com/@soyariesitomc", "icono": "bxl-tiktok", "color": "#fff" },
+    { "nombre": "WhatsApp", "desc": "Canal de anuncios.", "url": "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", "icono": "bxl-whatsapp", "color": "#25D366" },
+    { "nombre": "Discord", "desc": "La casa de la comunidad.", "url": "https://discord.gg/DgrckyxNMr", "icono": "bxl-discord-alt", "color": "#5865F2" }
+  ]
+}

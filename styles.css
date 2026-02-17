@@ -179,7 +179,8 @@ body {
 }
 .filter-btn:hover { background: var(--morado); }
 
-[ 
+[
+
 .lang-switcher { position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; gap: 8px; }
 .lang-switcher button { 
     background: var(--glass-bg); border: 1px solid var(--glass-border); 

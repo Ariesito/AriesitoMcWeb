@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargando... | Saturnite Studios</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Saturnite Studios | Proyecto</title>
+    <link rel="icon" href="https://i.postimg.cc/25tg6zFM/custom-ava.png">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="loader-wrapper"><img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" class="loader-logo"></div>
@@ -19,16 +21,16 @@
     </div>
 
     <div id="main">
-        <div id="detalle-dinamico"></div>
+        <div id="detalle-dinamico" style="width: 100%;"></div>
     </div>
 
     <div id="modal-aviso" class="modal-overlay">
-        <div class="glass" style="max-width:400px; text-align:center;">
-            <h2 id="modal-title">Atención</h2>
-            <p id="modal-text">Estás saliendo a un enlace externo.</p>
-            <div style="display:flex; gap:10px; margin-top:20px;">
-                <button class="btn-download" onclick="continuarDescarga()">Ok</button>
-                <button class="btn-download" style="background:#333;" onclick="cerrarAviso()">X</button>
+        <div class="glass text-center" style="max-width:450px;">
+            <h2 data-key="modal.titulo" style="color:var(--morado-claro); margin-bottom:15px;">Attention</h2>
+            <p data-key="modal.texto">Leaving to external link...</p>
+            <div style="display:flex; gap:10px; margin-top:25px;">
+                <button class="btn-download" onclick="continuarDescarga()" data-key="modal.continuar">Ok</button>
+                <button class="btn-download" style="background:#333;" onclick="cerrarAviso()" data-key="modal.cancelar">Cancel</button>
             </div>
         </div>
     </div>

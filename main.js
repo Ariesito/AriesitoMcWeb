@@ -6,35 +6,30 @@ async function init() {
         const response = await fetch('./data.json');
         appData = await response.json();
         renderAll();
+        updateNavbar();
     } catch (e) { console.error("Error cargando base de datos"); }
 }
 
 function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
-    renderAll();
+    location.reload(); // Recargamos para aplicar cambios en toda la UI
 }
 
 function renderAll() {
     const isEn = currentLang === 'en';
+    const ui = appData.config.ui;
 
-    // 1. SEO Dinámico (Título y Meta)
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get('id');
-    
-    // 2. Renderizar Filtros (Solo en proyectos.html)
-    const filterContainer = document.getElementById('filter-bar');
-    if (filterContainer && appData.config.filtros_config) {
-        filterContainer.innerHTML = appData.config.filtros_config
-            .filter(f => f.enabled)
-            .map(f => `
-                <button class="filter-btn" onclick="filterProjects('${f.id}')">
-                    ${isEn ? f.label_en : f.label_es}
-                </button>
-            `).join('');
-    }
+    // --- 1. Traducción de UI Estática (Navbar y Títulos) ---
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        const keys = key.split('.');
+        let translation = ui;
+        keys.forEach(k => translation = translation[k]);
+        el.innerText = isEn ? translation.en : translation.es;
+    });
 
-    // 3. Renderizar Noticias (index.html)
+    // --- 2. Renderizar Noticias (Index) ---
     const newsGrid = document.getElementById('noticias-grid');
     if (newsGrid) {
         newsGrid.innerHTML = appData.noticias.map(n => `
@@ -46,23 +41,45 @@ function renderAll() {
         `).join('');
     }
 
-    // 4. Renderizar Lista de Proyectos (proyectos.html)
-    renderProjectsList('todos');
+    // --- 3. Renderizar Filtros y Proyectos (proyectos.html) ---
+    const filterBar = document.getElementById('filter-bar');
+    if (filterBar) {
+        filterBar.innerHTML = appData.config.filtros
+            .filter(f => f.enabled)
+            .map(f => `<button class="filter-btn" onclick="renderProjectsList('${f.id}')">${isEn ? f.en : f.es}</button>`)
+            .join('');
+        renderProjectsList('todos');
+    }
 
-    // 5. Renderizar Detalle Dinámico (proyecto.html)
+    // --- 4. Renderizar Redes (redes.html) ---
+    const redesCont = document.getElementById('redes-container');
+    if (redesCont) {
+        redesCont.innerHTML = appData.redes.map(r => `
+            <div class="noticia-card" onclick="window.location.href='${r.url}'" style="cursor:pointer; flex-direction:row; align-items:center; gap:20px;">
+                <i class='bx ${r.icono}' style="font-size:2.5rem; color:${r.color}"></i>
+                <div>
+                    <h3 style="margin:0;">${r.nombre}</h3>
+                    <p style="margin:0; font-size:0.8rem; color:#888;">${isEn ? r.desc_en : r.desc_es}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // --- 5. Página de Detalle Dinámica (proyecto.html) ---
     const detCont = document.getElementById('detalle-dinamico');
-    if (detCont && projectId) {
-        const p = appData.proyectos.find(x => x.id === projectId);
+    if (detCont) {
+        const params = new URLSearchParams(window.location.search);
+        const p = appData.proyectos.find(x => x.id === params.get('id'));
         if (p) {
             document.title = `${p.id.toUpperCase()} | Saturnite`;
             detCont.innerHTML = `
                 <div class="glass text-center">
-                    <img src="${p.img}" style="width:120px; border-radius:20px;">
-                    <h1 class="main-title">${isEn ? p.titulo_en : p.titulo_es}</h1>
-                    <div class="specs-grid">
-                        ${p.specs.map(s => `<p><i class='bx ${s.icon}'></i> ${isEn ? s.text_en : s.text_es}</p>`).join('')}
+                    <img src="${p.img}" style="width:120px; border-radius:20px; filter:drop-shadow(0 0 15px var(--morado));">
+                    <h1 class="main-title" style="margin-top:20px;">${isEn ? p.titulo_en : p.titulo_es}</h1>
+                    <div class="specs-grid" style="margin:25px 0;">
+                        ${p.specs.map(s => `<p><i class='bx ${s.icon}'></i> ${isEn ? s.en : s.es}</p>`).join('')}
                     </div>
-                    <button onclick="abrirAviso('${p.enlace_descarga}')" class="btn-download" ${p.disabled ? 'disabled style="background:#222"' : ''}>
+                    <button onclick="abrirAviso('${p.enlace}')" class="btn-download" ${p.disabled ? 'disabled style="background:#222; opacity:0.5"' : ''}>
                         ${isEn ? p.btn_en : p.btn_es}
                     </button>
                 </div>
@@ -72,17 +89,16 @@ function renderAll() {
 }
 
 function renderProjectsList(filter) {
-    const projGrid = document.getElementById('proyectos-grid');
-    if (!projGrid) return;
+    const grid = document.getElementById('proyectos-grid');
+    if (!grid) return;
     const isEn = currentLang === 'en';
-    
     const filtered = filter === 'todos' ? appData.proyectos : appData.proyectos.filter(p => p.categoria === filter);
 
-    projGrid.innerHTML = filtered.map(p => `
+    grid.innerHTML = filtered.map(p => `
         <div class="noticia-card text-center">
             <img src="${p.img}" style="width:80px; margin-bottom:15px;">
             <h3>${isEn ? p.titulo_en : p.titulo_es}</h3>
-            <p>${isEn ? p.desc_en : p.desc_es}</p>
+            <p style="font-size:0.85rem; color:#aaa;">${isEn ? p.desc_en : p.desc_es}</p>
             <a href="proyecto.html?id=${p.id}" class="btn-download" style="margin-top:15px; display:inline-block;">
                 ${isEn ? 'Details' : 'Detalles'}
             </a>
@@ -90,9 +106,14 @@ function renderProjectsList(filter) {
     `).join('');
 }
 
-function filterProjects(cat) { renderProjectsList(cat); }
+// Lógica de Navbar, Modal y Loader (Simplificada)
+function updateNavbar() {
+    const path = window.location.pathname.split("/").pop() || "index.html";
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if(link.getAttribute('href') === path) link.classList.add('active');
+    });
+}
 
-// Lógica de Modal y Loader (Se mantiene simplificada)
 let pendingUrl = "";
 function abrirAviso(url) { if(url==="#") return; pendingUrl = url; document.getElementById('modal-aviso').classList.add('active'); }
 function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('active'); }

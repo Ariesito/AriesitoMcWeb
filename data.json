@@ -1,49 +1,57 @@
 {
+  "config": {
+    "idioma_default": "es",
+    "filtros_config": [
+      { "id": "todos", "label_es": "Todos", "label_en": "All", "enabled": true },
+      { "id": "texturas", "label_es": "Texturas", "label_en": "Textures", "enabled": true },
+      { "id": "addons", "label_es": "Addons", "label_en": "Addons", "enabled": true },
+      { "id": "extras", "label_es": "Extras", "label_en": "Extras", "enabled": true }
+    ]
+  },
   "noticias": [
     {
-      "titulo": "Actualizacion de la Web",
-      "contenido": "La Web a sido actualizada Visual y Internamente para mayor facilidad de uso tanto del usuario como de Ariesito y su equipo",
-      "fecha": "17 FEBRERO 2026",
-      "icono": "bx-calendar-exclamation"
-    },
-    {
-      "titulo": "Suspensión de Servidor",
-      "contenido": "El servidor Survival queda suspendido temporalmente hasta Marzo para implementar mejoras críticas en el núcleo.",
-      "fecha": "11 FEBRERO 2026",
-      "icono": "bx-server"
-    },
-    {
-      "titulo": "Actualización de Fechas",
-      "contenido": "Todos los proyectos programados para Febrero extienden su fecha de lanzamiento hasta Marzo. Priorizamos estabilidad sobre velocidad.",
-      "fecha": "11 FEBRERO 2026",
+      "titulo_es": "Actualización de la Web",
+      "titulo_en": "Web Update",
+      "contenido_es": "La Web ha sido actualizada visual e internamente.",
+      "contenido_en": "The website has been updated visually and internally.",
+      "fecha": "17 FEB 2026",
       "icono": "bx-calendar-exclamation"
     }
   ],
   "proyectos": [
     {
-      "id": "survival",
-      "titulo": "Survival Ariesito",
-      "desc": "El servidor técnico definitivo.",
-      "img": "https://i.postimg.cc/25tg6zFM/custom-ava.png",
-      "link": "#",
-      "btn": "Marzo 2026",
-      "disabled": true
+      "id": "obsidian",
+      "categoria": "texturas",
+      "titulo_es": "Obsidian Optimizador",
+      "titulo_en": "Obsidian Optimizer",
+      "desc_es": "Boost de FPS y reducción de Input Lag.",
+      "desc_en": "FPS Boost and Input Lag reduction.",
+      "img": "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
+      "enlace_descarga": "https://link-target.net/1356996/zMa3fwoanGAK",
+      "btn_es": "Ver Detalles",
+      "btn_en": "View Details",
+      "disabled": false,
+      "specs": [
+        { "icon": "bx-bolt-circle", "text_es": "+200% FPS Boost", "text_en": "+200% FPS Boost" },
+        { "icon": "bx-target-lock", "text_es": "0ms Latencia", "text_en": "0ms Latency" }
+      ]
     },
     {
-      "id": "obsidian",
-      "titulo": "Obsidian Optimizador",
-      "desc": "Boost de FPS y reducción de Input Lag.",
-      "img": "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
-      "link": "obsidian.html",
-      "enlace": "https://link-target.net/1356996/zMa3fwoanGAK",
-      "btn": "Ver Detalles",
-      "disabled": false
+      "id": "survival",
+      "categoria": "extras",
+      "titulo_es": "Survival Ariesito",
+      "titulo_en": "Ariesito Survival",
+      "desc_es": "Servidor técnico definitivo.",
+      "desc_en": "The ultimate technical server.",
+      "img": "https://i.postimg.cc/25tg6zFM/custom-ava.png",
+      "enlace_descarga": "#",
+      "btn_es": "Próximamente",
+      "btn_en": "Coming Soon",
+      "disabled": true,
+      "specs": []
     }
   ],
   "redes": [
-    { "nombre": "YouTube", "desc": "Tutoriales y Optimización.", "url": "https://www.youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" },
-    { "nombre": "TikTok", "desc": "Clips y noticias rápidas.", "url": "https://www.tiktok.com/@soyariesitomc", "icono": "bxl-tiktok", "color": "#fff" },
-    { "nombre": "WhatsApp", "desc": "Canal de anuncios.", "url": "https://whatsapp.com/channel/0029Vb74InvEwEjnCiAVjD1b", "icono": "bxl-whatsapp", "color": "#25D366" },
-    { "nombre": "Discord", "desc": "La casa de la comunidad.", "url": "https://discord.gg/DgrckyxNMr", "icono": "bxl-discord-alt", "color": "#5865F2" }
+    { "nombre": "YouTube", "url": "https://www.youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" }
   ]
 }

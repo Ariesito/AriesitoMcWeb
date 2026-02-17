@@ -1,6 +1,6 @@
 /**
- * AriesitoMc Web Engine v2.0
- * Lógica de renderizado dinámico mediante Fetch API
+ * AriesitoMc Web Engine v2.5
+ * Gestión dinámica de contenido y plantillas
  */
 
 let appData = {};
@@ -8,49 +8,16 @@ let appData = {};
 async function fetchData() {
     try {
         const response = await fetch('./data.json');
-        if (!response.ok) throw new Error('Error al cargar base de datos');
+        if (!response.ok) throw new Error('No se pudo cargar el JSON');
         appData = await response.json();
         renderAll();
     } catch (error) {
-        console.error("CRITICAL ERROR:", error);
-    }
-}
-
-function updateNavbar() {
-    const path = window.location.pathname;
-    let page = path.split("/").pop();
-    if (page === "" || page === "index.html") page = "index.html";
-
-    const links = document.querySelectorAll('.nav-link');
-    const indicator = document.querySelector('.nav-indicator');
-    const navList = document.querySelector('.nav-list');
-
-    if (!indicator || !navList) return;
-
-    let activeLink = null;
-    links.forEach(link => {
-        if (link.getAttribute('href') === page) {
-            activeLink = link;
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-    });
-
-    if (activeLink) {
-        const linkRect = activeLink.getBoundingClientRect();
-        const navRect = navList.getBoundingClientRect();
-        const leftPosition = linkRect.left - navRect.left;
-        const width = linkRect.width;
-
-        indicator.style.width = `${width}px`;
-        indicator.style.transform = `translateX(${leftPosition}px)`;
-        indicator.style.left = "0";
+        console.error("Error crítico de datos:", error);
     }
 }
 
 function renderAll() {
-    // Renderizado de Noticias
+    // 1. Renderizar Noticias (Index)
     const newsGrid = document.getElementById('noticias-grid');
     if (newsGrid && appData.noticias) {
         newsGrid.innerHTML = appData.noticias.map(n => `
@@ -59,29 +26,29 @@ function renderAll() {
                     <h3 style="display:flex; align-items:center; gap:10px;">
                         <i class='bx ${n.icono}' style="color:var(--morado-claro)"></i> ${n.titulo}
                     </h3>
-                    <p style="margin-top:10px; color:#bbb; font-size:0.9rem; line-height:1.5;">${n.contenido}</p>
+                    <p style="margin-top:10px; color:#bbb; font-size:0.9rem;">${n.contenido}</p>
                 </div>
                 <span class="fecha-bottom">${n.fecha}</span>
             </div>
         `).join('');
     }
 
-    // Renderizado de Proyectos
+    // 2. Renderizar Proyectos (Lista en proyectos.html)
     const projGrid = document.getElementById('proyectos-grid');
     if (projGrid && appData.proyectos) {
         projGrid.innerHTML = appData.proyectos.map(p => `
-            <div class="noticia-card" style="text-align:center; align-items: center;">
+            <div class="noticia-card" style="text-align:center; align-items:center;">
                 <img src="${p.img}" style="width:90px; margin-bottom:15px; border-radius:10px;">
                 <h3>${p.titulo}</h3>
                 <p style="margin:10px 0; color:#aaa; font-size:0.85rem;">${p.desc}</p>
-                ${p.disabled ? 
-                    `<button class="btn-download" style="background:#222; color:#555; cursor:not-allowed;">${p.btn}</button>` : 
-                    `<a href="${p.link}" class="btn-download">${p.btn}</a>`}
+                <a href="${p.link}" class="btn-download" style="${p.disabled ? 'background:#222; color:#555; pointer-events:none;' : ''}">
+                    ${p.btn}
+                </a>
             </div>
         `).join('');
     }
 
-    // Renderizado de Redes
+    // 3. Renderizar Redes (redes.html)
     const redesCont = document.getElementById('redes-container');
     if (redesCont && appData.redes) {
         redesCont.innerHTML = appData.redes.map(r => `
@@ -96,32 +63,41 @@ function renderAll() {
         `).join('');
     }
 
-    // Detalle Obsidian
-    const det = document.getElementById('detalle-container');
-    if (det && appData.proyectos) {
-        const p = appData.proyectos.find(x => x.id === "obsidian");
-        if(p) {
-            det.innerHTML = `
+    // 4. Lógica de Página de Detalle Dinámica (proyecto.html?id=xxx)
+    const dynamicContainer = document.getElementById('detalle-dinamico');
+    if (dynamicContainer) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('id');
+        const p = appData.proyectos.find(item => item.id === projectId);
+
+        if (p) {
+            document.title = `${p.titulo} | Saturnite Studios`;
+            dynamicContainer.innerHTML = `
                 <div class="glass" style="text-align:center; margin-top:40px;">
                     <img src="${p.img}" style="width:120px; filter:drop-shadow(0 0 15px var(--morado));">
-                    <h1 style="margin:20px 0; font-family:'Montserrat';">OBSIDIAN OPTIMIZADOR</h1>
-                    <p style="color:#888; margin-bottom:25px;">Desarrollado por Saturnite Studios</p>
-                    <div style="text-align:left; background:rgba(255,255,255,0.03); padding:20px; border-radius:15px; border:1px solid rgba(255,255,255,0.05); display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                        <p><i class='bx bx-bolt-circle' style="color:var(--morado-claro)"></i> +200% FPS Boost</p>
-                        <p><i class='bx bx-target-lock' style="color:var(--morado-claro)"></i> Input Lag 0ms</p>
-                        <p><i class='bx bx-chip' style="color:var(--morado-claro)"></i> Smart RAM Clean</p>
-                        <p><i class='bx bx-wifi' style="color:var(--morado-claro)"></i> Network Fix</p>
-                        <p><i class='bx bx-shield-quarter' style="color:var(--morado-claro)"></i> Antilag System</p>
-                        <p><i class='bx bx-moon' style="color:var(--morado-claro)"></i> Custom Sky</p>
+                    <h1 style="margin:20px 0; font-family:'Montserrat'; text-transform:uppercase;">${p.titulo}</h1>
+                    <p style="color:#888; margin-bottom:25px;">${p.subtitulo || ''}</p>
+                    
+                    <div class="specs-grid">
+                        ${(p.specs || []).map(s => `
+                            <p><i class='bx ${s.icon}' style="color:var(--morado-claro)"></i> ${s.text}</p>
+                        `).join('')}
                     </div>
-                    <button onclick="abrirAviso('${p.enlace}')" class="btn-download" style="margin-top:30px;">DESCARGAR AHORA</button>
+
+                    ${p.disabled ? 
+                        `<button class="btn-download" style="background:#222; color:#555; cursor:not-allowed; margin-top:30px;">PRÓXIMAMENTE</button>` : 
+                        `<button onclick="abrirAviso('${p.enlace_descarga || p.enlace}')" class="btn-download" style="margin-top:30px;">DESCARGAR AHORA</button>`
+                    }
                 </div>
             `;
+        } else {
+            dynamicContainer.innerHTML = `<div class="glass"><h2>Proyecto no encontrado</h2><br><a href="proyectos.html" class="btn-download">Volver</a></div>`;
         }
     }
 }
 
-// Control del Loader
+// --- Funciones de Utilidad (Loader, Navbar, Modal) ---
+
 function handleLoader() {
     const loader = document.getElementById('loader-wrapper');
     if (!loader) return;
@@ -138,16 +114,45 @@ function handleLoader() {
     }
 }
 
-// Inicialización
+function updateNavbar() {
+    const path = window.location.pathname;
+    let page = path.split("/").pop() || "index.html";
+    const links = document.querySelectorAll('.nav-link');
+    const indicator = document.querySelector('.nav-indicator');
+    const navList = document.querySelector('.nav-list');
+
+    let activeLink = null;
+    links.forEach(link => {
+        if (link.getAttribute('href') === page) {
+            link.classList.add('active');
+            activeLink = link;
+        } else {
+            link.classList.remove('active');
+        }
+    });
+
+    if (activeLink && indicator && navList) {
+        const linkRect = activeLink.getBoundingClientRect();
+        const navRect = navList.getBoundingClientRect();
+        indicator.style.width = `${linkRect.width}px`;
+        indicator.style.transform = `translateX(${linkRect.left - navRect.left}px)`;
+    }
+}
+
+// Modal
+let pendingUrl = "";
+function abrirAviso(url) { 
+    if(!url || url === "#") return;
+    pendingUrl = url; 
+    document.getElementById('modal-aviso').classList.add('active'); 
+}
+function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('active'); }
+function continuarDescarga() { if (pendingUrl) window.open(pendingUrl, '_blank'); cerrarAviso(); }
+
+// Init
 window.addEventListener('load', handleLoader);
 window.addEventListener('resize', updateNavbar);
 document.addEventListener("DOMContentLoaded", () => {
-    fetchData(); // Carga datos y luego renderiza
+    fetchData();
     updateNavbar();
 });
-
-// Modal logic
-let pendingUrl = "";
-function abrirAviso(url) { pendingUrl = url; document.getElementById('modal-aviso').classList.add('active'); }
-function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('active'); }
-function continuarDescarga() { if (pendingUrl) window.open(pendingUrl, '_blank'); cerrarAviso(); }

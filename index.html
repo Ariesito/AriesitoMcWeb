@@ -1,22 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AriesitoMc | Inicio</title>
+    <link rel="icon" href="https://i.postimg.cc/25tg6zFM/custom-ava.png">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
+    <div id="loader-wrapper"><img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" class="loader-logo"></div>
+    <div class="bg-fixed"></div>
+
     <div class="lang-switcher">
         <button onclick="setLanguage('es')">ES</button>
         <button onclick="setLanguage('en')">EN</button>
     </div>
-    
+
     <nav class="glass-navbar">
         <ul class="nav-list">
             <li class="nav-item"><a href="index.html" class="nav-link"><i class='bx bxs-home'></i><span data-key="nav.inicio">Inicio</span></a></li>
             <li class="nav-item"><a href="proyectos.html" class="nav-link"><i class='bx bxs-folder-open'></i><span data-key="nav.proyectos">Proyectos</span></a></li>
             <li class="nav-item"><a href="redes.html" class="nav-link"><i class='bx bxs-share-alt'></i><span data-key="nav.redes">Redes</span></a></li>
+            <div class="nav-indicator"></div>
         </ul>
     </nav>
 
     <div id="main">
-        <header class="glass text-center">
+        <div class="profile-header">
+            <img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" class="profile-img">
             <h1 class="main-title">𝐀𝐫𝐢𝐞𝐬𝐢𝐭𝐨𝐌𝐜</h1> 
-            <p class="description-text" data-key="perfil.desc">Visionario Técnico...</p>
-        </header>
+            <p class="description-text" data-key="perfil.desc">Cargando descripción...</p>
+        </div>
         <section class="glass">
             <h2 class="section-title" data-key="titulos.novedades">NOVEDADES</h2>
             <div id="noticias-grid" class="grid-layout"></div>
@@ -24,3 +40,4 @@
     </div>
     <script src="main.js"></script>
 </body>
+</html>

@@ -19,8 +19,8 @@
       },
       "perfil": {
         "desc": {
-          "es": "Visionario Técnico & Fundador de Saturnite Studios. Transformando la experiencia de Minecraft a través de ingeniería de optimización.",
-          "en": "Technical Visionary & Founder of Saturnite Studios. Transforming the Minecraft experience through optimization engineering."
+          "es": "Visionario Técnico & Fundador de Saturnite Studios. Transformando Minecraft con ingeniería de optimización.",
+          "en": "Technical Visionary & Founder of Saturnite Studios. Transforming Minecraft with optimization engineering."
         }
       },
       "modal": {
@@ -33,26 +33,19 @@
   },
   "noticias": [
     {
-      "titulo_es": "Actualizacion de la Web",
-      "titulo_en": "Web Update",
-      "contenido_es": "La Web ha sido actualizada Visual y Internamente para mayor facilidad de uso.",
-      "contenido_en": "The Web has been updated Visually and Internally for better ease of use.",
-      "fecha": "17 FEB 2026",
-      "icono": "bx-calendar-exclamation"
+      "titulo_es": "Actualizacion de la Web", "titulo_en": "Web Update",
+      "contenido_es": "La Web ha sido actualizada Visual e Internamente.", "contenido_en": "The Web has been updated Visually and Internally.",
+      "fecha": "17 FEB 2026", "icono": "bx-calendar-exclamation"
     }
   ],
   "proyectos": [
     {
-      "id": "obsidian",
-      "categoria": "texturas",
-      "titulo_es": "Obsidian Optimizador",
-      "titulo_en": "Obsidian Optimizer",
-      "desc_es": "Boost de FPS y reducción de Input Lag.",
-      "desc_en": "FPS Boost and Input Lag reduction.",
+      "id": "obsidian", "categoria": "texturas",
+      "titulo_es": "Obsidian Optimizador", "titulo_en": "Obsidian Optimizer",
+      "desc_es": "Boost de FPS y reducción de Input Lag.", "desc_en": "FPS Boost and Input Lag reduction.",
       "img": "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
       "enlace": "https://link-target.net/1356996/zMa3fwoanGAK",
-      "btn_es": "Ver Detalles",
-      "btn_en": "View Details",
+      "btn_es": "Ver Detalles", "btn_en": "View Details",
       "disabled": false,
       "specs": [
         { "icon": "bx-bolt-circle", "es": "+200% FPS Boost", "en": "+200% FPS Boost" },
@@ -60,21 +53,17 @@
       ]
     },
     {
-      "id": "survival",
-      "categoria": "extras",
-      "titulo_es": "Survival Ariesito",
-      "titulo_en": "Ariesito Survival",
-      "desc_es": "El servidor técnico definitivo.",
-      "desc_en": "The ultimate technical server.",
+      "id": "survival", "categoria": "extras",
+      "titulo_es": "Survival Ariesito", "titulo_en": "Ariesito Survival",
+      "desc_es": "El servidor técnico definitivo.", "desc_en": "The ultimate technical server.",
       "img": "https://i.postimg.cc/25tg6zFM/custom-ava.png",
       "enlace": "#",
-      "btn_es": "Marzo 2026",
-      "btn_en": "March 2026",
+      "btn_es": "Marzo 2026", "btn_en": "March 2026",
       "disabled": true,
       "specs": []
     }
   ],
   "redes": [
-    { "nombre": "YouTube", "desc_es": "Tutoriales y Optimización.", "desc_en": "Tutorials and Optimization.", "url": "https://www.youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" }
+    { "nombre": "YouTube", "desc_es": "Tutoriales.", "desc_en": "Tutorials.", "url": "https://youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" }
   ]
 }

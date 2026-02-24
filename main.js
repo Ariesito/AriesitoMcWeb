@@ -1,5 +1,4 @@
 let appData = {};
-let currentLang = localStorage.getItem('lang') || 'es';
 
 async function init() {
     try {
@@ -10,7 +9,6 @@ async function init() {
     } catch (e) {
         console.error("Fallo crítico:", e);
     } finally {
-        // Esto asegura que el loader se quite SIEMPRE
         setTimeout(removeLoader, 800);
     }
 }
@@ -23,23 +21,16 @@ function removeLoader() {
     }
 }
 
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('lang', lang);
-    location.reload();
-}
-
 function renderAll() {
-    const isEn = currentLang === 'en';
     const ui = appData.config.ui;
 
-    // Traducción de UI con data-key
+    // Traducción de UI con data-key (Solo Español)
     document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.getAttribute('data-key');
         const keys = key.split('.');
         let translation = ui;
         keys.forEach(k => translation = translation ? translation[k] : null);
-        if (translation) el.innerText = isEn ? translation.en : translation.es;
+        if (translation) el.innerText = translation;
     });
 
     // Renderizar Noticias
@@ -47,8 +38,8 @@ function renderAll() {
     if (newsGrid) {
         newsGrid.innerHTML = appData.noticias.map(n => `
             <div class="noticia-card">
-                <h3><i class='bx ${n.icono}'></i> ${isEn ? n.titulo_en : n.titulo_es}</h3>
-                <p>${isEn ? n.contenido_en : n.contenido_es}</p>
+                <h3><i class='bx ${n.icono}'></i> ${n.titulo}</h3>
+                <p>${n.contenido}</p>
                 <span class="fecha-bottom">${n.fecha}</span>
             </div>
         `).join('');
@@ -59,12 +50,12 @@ function renderAll() {
     if (filterBar) {
         filterBar.innerHTML = appData.config.filtros
             .filter(f => f.enabled)
-            .map(f => `<button class="filter-btn" onclick="renderProjectsList('${f.id}')">${isEn ? f.en : f.es}</button>`)
+            .map(f => `<button class="filter-btn" onclick="renderProjectsList('${f.id}')">${f.nombre}</button>`)
             .join('');
         renderProjectsList('todos');
     }
 
-    // Página de Detalle
+    // Página de Detalle de Proyecto
     const detCont = document.getElementById('detalle-dinamico');
     if (detCont) {
         const params = new URLSearchParams(window.location.search);
@@ -72,11 +63,11 @@ function renderAll() {
         if (p) {
             detCont.innerHTML = `
                 <div class="glass text-center">
-                    <img src="${p.img}" style="width:120px; border-radius:20px;">
-                    <h1 class="main-title">${isEn ? p.titulo_en : p.titulo_es}</h1>
-                    <div class="specs-grid">${p.specs.map(s => `<p><i class='bx ${s.icon}'></i> ${isEn ? s.en : s.es}</p>`).join('')}</div>
+                    <img src="${p.img}" style="width:120px; border-radius:20px; margin-bottom: 20px;">
+                    <h1 class="main-title">${p.titulo}</h1>
+                    <div class="specs-grid">${p.specs.map(s => `<p><i class='bx ${s.icon}'></i> ${s.texto}</p>`).join('')}</div>
                     <button onclick="abrirAviso('${p.enlace}')" class="btn-download" ${p.disabled ? 'disabled style="background:#222"' : ''}>
-                        ${isEn ? p.btn_en : p.btn_es}
+                        ${p.btn}
                     </button>
                 </div>`;
         }
@@ -87,13 +78,12 @@ function renderAll() {
 function renderProjectsList(filter) {
     const grid = document.getElementById('proyectos-grid');
     if (!grid) return;
-    const isEn = currentLang === 'en';
     const filtered = filter === 'todos' ? appData.proyectos : appData.proyectos.filter(p => p.categoria === filter);
     grid.innerHTML = filtered.map(p => `
         <div class="noticia-card text-center">
-            <img src="${p.img}" style="width:80px; margin-bottom:15px;">
-            <h3>${isEn ? p.titulo_en : p.titulo_es}</h3>
-            <a href="proyecto.html?id=${p.id}" class="btn-download" style="margin-top:15px;">${isEn ? 'Details' : 'Detalles'}</a>
+            <img src="${p.img}" style="width:80px; margin-bottom:15px; border-radius: 15px;">
+            <h3>${p.titulo}</h3>
+            <a href="proyecto.html?id=${p.id}" class="btn-download" style="margin-top:15px;">Detalles</a>
         </div>`).join('');
 }
 

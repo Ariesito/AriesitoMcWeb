@@ -73,9 +73,9 @@ body {
     box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
 }
 
-/* SELECTOR DE IDIOMA */
+/* SELECTOR DE IDIOMA - CORREGIDO */
 .lang-switcher { 
-    position: fixed; top: 20px; right: 20px; z-index: 10000; 
+    position: absolute; top: 100px; right: 20px; z-index: 1000; 
     display: flex; gap: 8px; 
 }
 
@@ -98,15 +98,32 @@ body {
     display: flex; flex-direction: column; align-items: center; 
 }
 
+.profile-header {
+    text-align: center;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .glass {
     background: var(--glass-bg); backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border); border-radius: 24px;
     padding: 2.5rem; width: 100%; margin-bottom: 2.5rem;
 }
 
-.profile-img { width: 130px; filter: drop-shadow(0 0 20px rgba(138,43,226,0.3)); transition: transform 0.3s; margin-bottom: 20px; }
+.profile-img { 
+    width: 130px; 
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: drop-shadow(0 0 20px rgba(138,43,226,0.3)); 
+    transition: transform 0.3s; 
+    margin: 0 auto 20px auto; 
+}
+
 .main-title { font-family: 'Montserrat', sans-serif; text-align: center; font-size: 2rem; color: #fff; margin-bottom: 10px; }
-.description-text { text-align: center; color: var(--text-dim); font-style: italic; font-size: 0.95rem; line-height: 1.6; }
+.description-text { text-align: center; color: var(--text-dim); font-style: italic; font-size: 0.95rem; line-height: 1.6; max-width: 600px; }
 .section-title { text-align: center; margin-bottom: 2rem; letter-spacing: 2px; font-weight: 700; color: #fff; }
 
 /* FILTROS */
@@ -129,12 +146,15 @@ body {
     padding: 1.8rem; border-radius: 16px; 
     transition: var(--transition);
     height: 100%; display: flex; flex-direction: column;
+    align-items: center; /* Centra contenido de la card */
+    text-align: center;
 }
+.noticia-card h3 { width: 100%; }
 .noticia-card:hover { background: rgba(255,255,255,0.06); transform: translateY(-5px); }
 
 .fecha-bottom {
     display: block; margin-top: auto; padding-top: 15px; font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem; color: var(--morado-claro); font-weight: 800; text-align: right; letter-spacing: 1px;
+    font-size: 0.7rem; color: var(--morado-claro); font-weight: 800; text-align: right; width: 100%; letter-spacing: 1px;
 }
 
 /* BOTONES */

@@ -13,11 +13,6 @@
     <div id="loader-wrapper"><img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" class="loader-logo"></div>
     <div class="bg-fixed"></div>
 
-    <div class="lang-switcher">
-        <button onclick="setLanguage('es')">ES</button>
-        <button onclick="setLanguage('en')">EN</button>
-    </div>
-
     <nav class="glass-navbar">
         <ul class="nav-list">
             <li class="nav-item"><a href="index.html" class="nav-link"><i class='bx bxs-home'></i><span data-key="nav.inicio">Inicio</span></a></li>
@@ -28,11 +23,17 @@
     </nav>
 
     <div id="main">
+        <div class="lang-switcher">
+            <button onclick="setLanguage('es')">ES</button>
+            <button onclick="setLanguage('en')">EN</button>
+        </div>
+
         <div class="profile-header">
             <img src="https://i.postimg.cc/25tg6zFM/custom-ava.png" class="profile-img">
             <h1 class="main-title">𝐀𝐫𝐢𝐞𝐬𝐢𝐭𝐨𝐌𝐜</h1> 
             <p class="description-text" data-key="perfil.desc">Cargando descripción...</p>
         </div>
+
         <section class="glass">
             <h2 class="section-title" data-key="titulos.novedades">NOVEDADES</h2>
             <div id="noticias-grid" class="grid-layout"></div>

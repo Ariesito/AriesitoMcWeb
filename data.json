@@ -1,69 +1,75 @@
 {
   "config": {
     "filtros": [
-      { "id": "todos", "es": "Todos", "en": "All", "enabled": true },
-      { "id": "texturas", "es": "Texturas", "en": "Textures", "enabled": true },
-      { "id": "addons", "es": "Addons", "en": "Addons", "enabled": true },
-      { "id": "extras", "es": "Extras", "en": "Extras", "enabled": true }
+      { "id": "todos", "nombre": "Todos", "enabled": true },
+      { "id": "texturas", "nombre": "Texturas", "enabled": true },
+      { "id": "addons", "nombre": "Addons", "enabled": true },
+      { "id": "extras", "nombre": "Extras", "enabled": true }
     ],
     "ui": {
       "nav": {
-        "inicio": { "es": "Inicio", "en": "Home" },
-        "proyectos": { "es": "Proyectos", "en": "Projects" },
-        "redes": { "es": "Redes", "en": "Socials" }
+        "inicio": "Inicio",
+        "proyectos": "Proyectos",
+        "redes": "Redes"
       },
       "titulos": {
-        "novedades": { "es": "NOVEDADES", "en": "LATEST NEWS" },
-        "proyectos": { "es": "MIS PROYECTOS", "en": "MY PROJECTS" },
-        "redes": { "es": "CONECTA CONMIGO", "en": "CONNECT WITH ME" }
+        "novedades": "NOVEDADES",
+        "proyectos": "MIS PROYECTOS",
+        "redes": "CONECTA CONMIGO"
       },
       "perfil": {
-        "desc": {
-          "es": "Visionario Técnico & Fundador de Saturnite Studios. Transformando Minecraft con ingeniería de optimización.",
-          "en": "Technical Visionary & Founder of Saturnite Studios. Transforming Minecraft with optimization engineering."
-        }
+        "desc": "Visionario Técnico & Fundador de Saturnite Studios. Transformando Minecraft con ingeniería de optimización."
       },
       "modal": {
-        "titulo": { "es": "¡Atención!", "en": "Attention!" },
-        "texto": { "es": "Estás saliendo a un enlace externo para realizar la descarga.", "en": "You are leaving to an external link to proceed with the download." },
-        "continuar": { "es": "Continuar", "en": "Continue" },
-        "cancelar": { "es": "Cancelar", "en": "Cancel" }
+        "titulo": "¡Atención!",
+        "texto": "Estás saliendo a un enlace externo para realizar la descarga.",
+        "continuar": "Continuar",
+        "cancelar": "Cancelar"
       }
     }
   },
   "noticias": [
     {
-      "titulo_es": "ATENCION", "titulo_en": "Web Update",
-      "contenido_es": "Estamos trabajando en la web por lo que puede presentar errores visuales.", "contenido_en": "The Web has been updated Visually and Internally.",
-      "fecha": "17 FEB 2026", "icono": "bx-calendar-exclamation"
+      "titulo": "¡OBSIDIAN REGRESA!",
+      "contenido": "Estamos trabajando nuevamente en Obsidian. Tu optimizador de confianza vuelve y mejor que nunca, con mejoras de rendimiento sin precedentes.",
+      "fecha": "24 FEB 2026",
+      "icono": "bx-bolt-circle"
+    },
+    {
+      "titulo": "WEB CORREGIDA",
+      "contenido": "Los errores visuales en la web han sido corregidos. Si encuentras algún fallo técnico, te agradeceríamos informarlo por nuestra comunidad de WhatsApp o Discord.",
+      "fecha": "24 FEB 2026",
+      "icono": "bx-check-shield"
     }
   ],
   "proyectos": [
     {
-      "id": "obsidian", "categoria": "texturas",
-      "titulo_es": "Obsidian Optimizador", "titulo_en": "Obsidian Optimizer",
-      "desc_es": "Boost de FPS y reducción de Input Lag.", "desc_en": "FPS Boost and Input Lag reduction.",
+      "id": "obsidian",
+      "categoria": "texturas",
+      "titulo": "Obsidian Optimizador",
+      "desc": "Boost de FPS y reducción de Input Lag.",
       "img": "https://i.postimg.cc/mgrqdjGk/pack-icon-2.png",
       "enlace": "https://link-target.net/1356996/zMa3fwoanGAK",
-      "btn_es": "Ver Detalles", "btn_en": "View Details",
+      "btn": "Ver Detalles",
       "disabled": false,
       "specs": [
-        { "icon": "bx-bolt-circle", "es": "+200% FPS Boost", "en": "+200% FPS Boost" },
-        { "icon": "bx-target-lock", "es": "Latencia 0ms", "en": "0ms Latency" }
+        { "icon": "bx-bolt-circle", "texto": "+200% FPS Boost" },
+        { "icon": "bx-target-lock", "texto": "Latencia 0ms" }
       ]
     },
     {
-      "id": "survival", "categoria": "extras",
-      "titulo_es": "Survival Ariesito", "titulo_en": "Ariesito Survival",
-      "desc_es": "El servidor técnico definitivo.", "desc_en": "The ultimate technical server.",
+      "id": "survival",
+      "categoria": "extras",
+      "titulo": "Survival Ariesito",
+      "desc": "El servidor técnico definitivo.",
       "img": "https://i.postimg.cc/25tg6zFM/custom-ava.png",
       "enlace": "#",
-      "btn_es": "Marzo 2026", "btn_en": "March 2026",
+      "btn": "Marzo 2026",
       "disabled": true,
       "specs": []
     }
   ],
   "redes": [
-    { "nombre": "YouTube", "desc_es": "Tutoriales.", "desc_en": "Tutorials.", "url": "https://youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" }
+    { "nombre": "YouTube", "desc": "Tutoriales.", "url": "https://youtube.com/@soyariesitomc", "icono": "bxl-youtube", "color": "#ff0000" }
   ]
 }
